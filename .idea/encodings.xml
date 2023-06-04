@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="Encoding" defaultCharsetForPropertiesFiles="UTF-8">
+    <file url="file://$MAVEN_REPOSITORY$/org/springframework/boot/spring-boot-starter-parent/2.5.4/src/main/resources" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/csmall-cart/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/csmall-common/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/csmall-front/csmall-front-adapter/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/csmall-front/csmall-front-service/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/csmall-front/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/csmall-front/src/main/resources" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/csmall-order/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/csmall-pojo/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/csmall-product/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/csmall-seckill/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/csmall-sso/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/csmall-stock/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/src/main/resources" charset="UTF-8" />
+    <file url="PROJECT" charset="UTF-8" />
+  </component>
+</project>

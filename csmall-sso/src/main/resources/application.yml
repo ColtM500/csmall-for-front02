@@ -1,0 +1,19 @@
+spring:
+  profiles:
+    active: local
+server:
+  port: 10002
+
+jwt:
+  tokenHeader: Authorization #JWT存储的请求头
+  secret: mySecret #JWT加解密使用的密钥
+  expiration: 604800000 #注意这个是毫秒数 目前是7天
+  tokenHead: Bearer
+
+mybatis:
+  mapper-locations:
+    - classpath:mapper/*.xml
+  configuration:
+    cache-enabled: false
+    map-underscore-to-camel-case: true
+    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
