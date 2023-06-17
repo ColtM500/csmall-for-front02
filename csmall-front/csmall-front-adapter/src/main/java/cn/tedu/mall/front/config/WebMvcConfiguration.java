@@ -14,33 +14,26 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package cn.tedu.mall.pojo.front.vo;
+package cn.tedu.mall.front.config;
 
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
-import java.io.Serializable;
-import lombok.Data;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.web.servlet.config.annotation.CorsRegistry;
+import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
-@ApiModel(value = "前台SPU DETAIL")
-@Data
-public class FrontSpuDetailVO implements Serializable {
-    private static final long serialVersionUID = 1L;
+@Configuration
+@Slf4j
+public class WebMvcConfiguration implements WebMvcConfigurer {
 
-    /**
-     * 数据id
-     */
-    @ApiModelProperty("数据id")
-    private Long id;
+    @Override
+    public void addCorsMappings(CorsRegistry registry) {
+        log.debug("front开启跨域");
+        registry.addMapping("/**")
+            .allowedOriginPatterns("*")
+            .allowedMethods("*")
+            .allowedHeaders("*")
+            .allowCredentials(true)
+            .maxAge(3600);
+    }
 
-    /**
-     * SPU id
-     */
-    @ApiModelProperty("SPU id")
-    private Long spuId;
-
-    /**
-     * SPU详情，应该使用HTML富文本，通常内容是若干张图片
-     */
-    @ApiModelProperty("SPU详情，应该使用HTML富文本，通常内容是若干张图片")
-    private String detail;
 }

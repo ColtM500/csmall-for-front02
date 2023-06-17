@@ -1,0 +1,35 @@
+# 日志显示级别
+logging:
+  level:
+    cn.tedu.mall: trace
+spring:
+  application:
+    name: csmall-front
+  # 数据源配置
+  datasource:
+    url: jdbc:mysql://localhost:3306/mall_pms?useSSL=false&useUnicode=true&characterEncoding=utf-8&serverTimezone=Asia/Shanghai&allowMultiQueries=true&allowPublicKeyRetrieval=true
+    username: root
+    password: local
+    driver-class-name: com.mysql.cj.jdbc.Driver
+  jackson:
+    default-property-inclusion: always
+  cloud:
+    nacos:
+      discovery:
+        server-addr: localhost:8848
+  redis:
+    host: localhost
+    port: 6379
+
+dubbo:
+  application:
+    name: csmall-front
+  protocol:
+    port: -1
+    name: dubbo
+  registry:
+    address: nacos://localhost:8848
+    use-as-config-center: false
+    use-as-metadata-center: false
+  consumer:
+    check: false

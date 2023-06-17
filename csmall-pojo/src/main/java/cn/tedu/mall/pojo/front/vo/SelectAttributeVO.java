@@ -15,32 +15,18 @@
  * limitations under the License.
  */
 package cn.tedu.mall.pojo.front.vo;
-
+import cn.tedu.mall.pojo.product.vo.AttributeStandardVO;
+import cn.tedu.mall.pojo.product.vo.BrandStandardVO;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
-import java.io.Serializable;
+import java.util.List;
 import lombok.Data;
 
-@ApiModel(value = "前台SPU DETAIL")
 @Data
-public class FrontSpuDetailVO implements Serializable {
-    private static final long serialVersionUID = 1L;
-
-    /**
-     * 数据id
-     */
-    @ApiModelProperty("数据id")
-    private Long id;
-
-    /**
-     * SPU id
-     */
-    @ApiModelProperty("SPU id")
-    private Long spuId;
-
-    /**
-     * SPU详情，应该使用HTML富文本，通常内容是若干张图片
-     */
-    @ApiModelProperty("SPU详情，应该使用HTML富文本，通常内容是若干张图片")
-    private String detail;
+@ApiModel("筛选属性对象")
+public class SelectAttributeVO {
+    @ApiModelProperty(value = "分类下的品牌")
+    private List<BrandStandardVO> brands;
+    @ApiModelProperty(value = "分类下的属性值")
+    private List<AttributeStandardVO> attributes;
 }

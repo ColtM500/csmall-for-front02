@@ -1,19 +1,34 @@
+/*
+ * Licensed to the Apache Software Foundation (ASF) under one or more
+ * contributor license agreements.  See the NOTICE file distributed with
+ * this work for additional information regarding copyright ownership.
+ * The ASF licenses this file to You under the Apache License, Version 2.0
+ * (the "License"); you may not use this file except in compliance with
+ * the License.  You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
 package cn.tedu.mall.pojo.front.entity;
 
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
-import lombok.Data;
-
 import java.io.Serializable;
 import java.util.List;
+import lombok.Data;
 
 /**
  * 前台分类树封装分类实体
- * @author xiaoxuwei
+ *
  * @version 1.0.0
  */
 @Data
-@ApiModel(value="商品分类树实体")
+@ApiModel(value = "商品分类树实体")
 public class FrontCategoryEntity implements Serializable {
     private static final long serialVersionUID = 1L;
 
@@ -81,4 +96,26 @@ public class FrontCategoryEntity implements Serializable {
      * 如果当前isParent是1，则需要下级分类
      */
     private List<FrontCategoryEntity> childrens;
+
+    /**
+     * 控制台测试打印
+     *
+     * @return
+     */
+    @Override
+    public String toString() {
+        return "FrontCategoryEntity{" +
+            "id=" + id +
+            ", name='" + name + '\'' +
+            ", parentId=" + parentId +
+            ", depth=" + depth +
+            ", keywords='" + keywords + '\'' +
+            ", sort=" + sort +
+            ", icon='" + icon + '\'' +
+            ", parent=" + parent +
+            ", active=" + active +
+            ", display=" + display +
+            ", childrens=" + childrens +
+            '}';
+    }
 }

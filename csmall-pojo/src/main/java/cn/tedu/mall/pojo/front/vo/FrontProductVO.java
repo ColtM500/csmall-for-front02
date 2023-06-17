@@ -1,20 +1,36 @@
+/*
+ * Licensed to the Apache Software Foundation (ASF) under one or more
+ * contributor license agreements.  See the NOTICE file distributed with
+ * this work for additional information regarding copyright ownership.
+ * The ASF licenses this file to You under the Apache License, Version 2.0
+ * (the "License"); you may not use this file except in compliance with
+ * the License.  You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
 package cn.tedu.mall.pojo.front.vo;
 
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
-import lombok.Data;
-
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.List;
+import lombok.Data;
 
 /**
  * 前台商城商品对象
- * @author xiaoxuwei
+ *
+
  * @version 1.0.0
  */
-@ApiModel(value="商品详情",description = "包含了展示商品详情的所有数据")
+@ApiModel(value = "商品详情", description = "包含了展示商品详情的所有数据")
 @Data
 @Deprecated
 public class FrontProductVO implements Serializable {
@@ -76,7 +92,7 @@ public class FrontProductVO implements Serializable {
     private LocalDateTime gmtCheck;
     @ApiModelProperty(value = "spu包含了sku列表")
     private List<FrontSkuSimpleVO> skusList;
-    @ApiModelProperty(value="spu关联的属性列表")
+    @ApiModelProperty(value = "spu关联的属性列表")
     private List<FrontAttributeSimpleVO> frontAttributeVOList;
 
 }

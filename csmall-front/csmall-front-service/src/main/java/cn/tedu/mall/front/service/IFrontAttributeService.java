@@ -14,33 +14,14 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package cn.tedu.mall.pojo.front.vo;
+package cn.tedu.mall.front.service;
 
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
-import java.io.Serializable;
-import lombok.Data;
+import cn.tedu.mall.pojo.front.vo.SelectAttributeVO;
+import cn.tedu.mall.pojo.product.vo.AttributeStandardVO;
+import java.util.List;
 
-@ApiModel(value = "前台SPU DETAIL")
-@Data
-public class FrontSpuDetailVO implements Serializable {
-    private static final long serialVersionUID = 1L;
+public interface IFrontAttributeService {
+    SelectAttributeVO getAllRelatedAttirbutes(Long categoryId);
 
-    /**
-     * 数据id
-     */
-    @ApiModelProperty("数据id")
-    private Long id;
-
-    /**
-     * SPU id
-     */
-    @ApiModelProperty("SPU id")
-    private Long spuId;
-
-    /**
-     * SPU详情，应该使用HTML富文本，通常内容是若干张图片
-     */
-    @ApiModelProperty("SPU详情，应该使用HTML富文本，通常内容是若干张图片")
-    private String detail;
+    List<AttributeStandardVO> getSpuAttributesBySpuId(Long id);
 }

@@ -21,7 +21,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.redis.core.HashOperations;
 import org.springframework.data.redis.core.RedisTemplate;
-import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -93,8 +92,7 @@ public class UserSSOServiceImpl implements IUserSSOService {
             String authToken = token.substring(tokenHead.length());
             //写入redis 锁住 这里采用list分日期存储,方便后续定时清理
             String lockedTokenList="token_list_.lock";
-            redisTemplate.boundSetOps(lockedTokenList).add(authToken);
-            Long add = redisTemplate.boundSetOps(lockedTokenList).add(authToken);
+            Long add =  redisTemplate.boundSetOps(lockedTokenList).add(authToken);
             if(add==0){
                 throw new CoolSharkServiceException(ResponseCode.CONFLICT,"当前用户已经登出,不必重复登出");
             }
