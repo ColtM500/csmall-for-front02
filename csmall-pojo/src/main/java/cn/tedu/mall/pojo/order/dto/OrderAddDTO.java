@@ -24,7 +24,10 @@ public class OrderAddDTO implements OrderRegExpression,Serializable {
     @NotNull(message = VALIDATE_MESSAGE_PREFIX+"请填写联系人")
     @Pattern(regexp = REGEXP_CONTACT_NAME,message = MESSAGE_CONTACT_NAME)
     private String contactName;
-
+    /**
+     * order sn 应该又前端获取并且分装传递
+     */
+    private String sn;
     /**
      * 联系电话（冗余，历史）
      */

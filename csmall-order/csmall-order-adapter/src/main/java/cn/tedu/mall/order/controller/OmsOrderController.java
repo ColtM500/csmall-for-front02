@@ -25,10 +25,14 @@ import cn.tedu.mall.pojo.order.dto.OrderStateUpdateDTO;
 import cn.tedu.mall.pojo.order.vo.OrderAddVO;
 import cn.tedu.mall.pojo.order.vo.OrderDetailVO;
 import cn.tedu.mall.pojo.order.vo.OrderListVO;
+import com.alibaba.fastjson.JSON;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
+import java.time.LocalDateTime;
+import java.util.UUID;
+import org.apache.rocketmq.spring.core.RocketMQTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -49,12 +53,27 @@ import org.springframework.web.bind.annotation.RestController;
 public class OmsOrderController {
     @Autowired
     private IOmsOrderService orderService;
+    @Autowired
+    private RocketMQTemplate rocketMQTemplate;
 
+    /**
+     * 异步下单,消费调用订单新增
+     * @param orderAddDTO
+     * @return
+     */
     @PostMapping("/add")
     @ApiOperation("新增一张订单")
     @PreAuthorize("hasRole('ROLE_user')")
     public JsonResult<OrderAddVO> addOrder(OrderAddDTO orderAddDTO) {
-        OrderAddVO orderAddVO = orderService.addOrder(orderAddDTO);
+        //生成sn
+        String sn= UUID.randomUUID().toString();
+        orderAddDTO.setSn(sn);
+        //不生成订单,只异步发送
+        String msg = JSON.toJSONString(orderAddDTO);
+        rocketMQTemplate.convertAndSend("order-add-topic",msg);
+        OrderAddVO orderAddVO=new OrderAddVO();
+        orderAddVO.setSn(sn);
+        orderAddVO.setCreateTime(LocalDateTime.now());
         return JsonResult.ok(orderAddVO);
     }
 
@@ -62,6 +81,7 @@ public class OmsOrderController {
     @ApiOperation("更新订单状态")
     @PreAuthorize("hasRole('ROLE_user')")
     public JsonResult updateOrderState(OrderStateUpdateDTO orderStateUpdateDTO) {
+
         orderService.updateOrderState(orderStateUpdateDTO);
         return JsonResult.ok();
     }

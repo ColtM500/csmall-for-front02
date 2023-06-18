@@ -34,3 +34,9 @@ dubbo:
 logging:
   level:
     cn.tedu.mall: trace
+rocketmq:
+  name-server: localhost:9876
+  producer:
+    group: order-producer-group
+  consumer:
+    group: order-consumer-group
