@@ -4,6 +4,7 @@ import cn.tedu.mall.common.exception.CoolSharkServiceException;
 import cn.tedu.mall.common.restful.ResponseCode;
 import cn.tedu.mall.front.mapper.FrontSkuMapper;
 import cn.tedu.mall.front.service.IFrontSkuService;
+import cn.tedu.mall.pojo.order.dto.OrderItemAddDTO;
 import cn.tedu.mall.pojo.product.vo.SkuStandardVO;
 import java.util.ArrayList;
 import java.util.List;
@@ -69,5 +70,13 @@ public class FrontSkuServiceImpl extends AbstractFrontCacheService<SkuStandardVO
             }
         }
         return standardVOS;
+    }
+
+    @Override public void reduceSkusCounts(List<OrderItemAddDTO> items, String sn) {
+
+    }
+
+    @Override public void returnStock(String sn) {
+
     }
 }

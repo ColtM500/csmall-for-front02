@@ -36,4 +36,8 @@ public interface OmsOrderMapper {
     List<OrderListVO> selectOrdersBetweenTimes(OrderListTimeDTO orderListTimeDTO);
 
     OrderDetailVO selectOrderById(@Param("id") Long id);
+
+    OrderDetailVO selectOrderBySn(@Param("sn")String sn);
+
+    boolean selectExistBySn(String sn);
 }

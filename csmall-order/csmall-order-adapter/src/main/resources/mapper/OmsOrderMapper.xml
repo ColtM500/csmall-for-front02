@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="cn.tedu.mall.order.mapper.OmsOrderMapper">
-
     <!-- 通用查询映射结果 -->
     <resultMap id="BaseResultMap" type="cn.tedu.mall.pojo.order.model.OmsOrder">
         <id column="id" property="id" />
@@ -32,8 +31,16 @@
         <result column="gmt_create" property="gmtCreate" />
         <result column="gmt_modified" property="gmtModified" />
     </resultMap>
+    <!--查询sn订单是否存在-->
+    <select id="selectExistBySn" resultType="Boolean">
+        select count(*) from oms_order where sn=#{sn};
+    </select>
+    <!--使用sn查询订单详情-->
+    <select id="selectOrderBySn" resultType="cn.tedu.mall.pojo.order.vo.OrderDetailVO">
+        select * from oms_order where sn=#{sn}
+    </select>
     <!--新增订单-->
-    <insert id="insertOrder">
+    <insert id="insertOrder" useGeneratedKeys="true" keyProperty="id">
         INSERT INTO oms_order (
         id,
         sn,

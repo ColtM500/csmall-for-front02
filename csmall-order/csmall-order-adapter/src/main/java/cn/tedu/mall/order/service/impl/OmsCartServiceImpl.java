@@ -54,7 +54,7 @@ import org.springframework.stereotype.Service;
 @Service
 @Slf4j
 public class OmsCartServiceImpl implements IOmsCartService {
-    private static final String ORDER_CART_PREFIX = "cart:user:";
+    public static final String ORDER_CART_PREFIX = "cart:user:";
     @Autowired
     private OmsCartMapper omsCartMapper;
     @DubboReference

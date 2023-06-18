@@ -45,8 +45,11 @@ import java.util.UUID;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.dubbo.config.annotation.DubboReference;
 import org.apache.dubbo.config.annotation.DubboService;
+import org.apache.rocketmq.spring.core.RocketMQTemplate;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.messaging.Message;
+import org.springframework.messaging.support.MessageBuilder;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
 
@@ -63,61 +66,26 @@ public class OmsOrderServiceImpl implements IOmsOrderService {
     @Autowired
     private OmsOrderMapper orderMapper;
     @Autowired
-    private OmsOrderItemMapper orderItemMapper;
-//    @DubboReference
-//    private IForOrderSkuService dubboSkuService;
-    @Autowired
-    private IOmsCartService dubboCartService;
-//    @DubboReference
-//    private ISegmentService segmentService;
+    private RocketMQTemplate rocketMQTemplate;
 
+    /**
+     * 注意实现方法的幂等效果,只要调用,sn重复就无法下单方法就结束了
+     * @param orderAddDTO
+     * @return
+     */
     @Override
-    public OrderAddVO addOrder(OrderAddDTO orderAddDTO) {
-//        //将DTO转化成model
-//        OmsOrder omsOrder = new OmsOrder();
-//        BeanUtils.copyProperties(orderAddDTO, omsOrder);
-//        //补充订单对象.
-//        replenishOrder(omsOrder);
-//        //转化订单商品列表对象
-//        List<OmsOrderItem> omsOrderItems = new ArrayList<>();
-//        List<OrderItemAddDTO> orderItems = orderAddDTO.getOrderItems();
-//        for (OrderItemAddDTO orderItem : orderItems) {
-//            //转化订单商品
-//            OmsOrderItem omsOrderItem = new OmsOrderItem();
-//            BeanUtils.copyProperties(orderItem, omsOrderItem);
-//            //补充关联订单id
-//            omsOrderItem.setOrderId(omsOrder.getId());
-//            //补充订单商品
-//            replenishOrderItem(omsOrderItem);
-//            //填充到列表中
-//            omsOrderItems.add(omsOrderItem);
-//            Long skuId = omsOrderItem.getSkuId();
-//            Integer quantity = omsOrderItem.getQuantity();
-//            //调用远程减库存
-//            int result = dubboSkuService.reduceStockNum(skuId, quantity);
-//            if (result == 0) {
-//                log.info("当前商品:{},减库存个数:{},失败)", skuId, quantity);
-//                throw new CoolSharkServiceException(ResponseCode.CONFLICT, "减库存失败,数据回退");
-//            }
-//            //清空购物车
-//            OmsCart omsCart = new OmsCart();
-//            omsCart.setSkuId(skuId);
-//            omsCart.setUserId(omsOrder.getUserId());
-//            //清空提交订单的购物车数据
-//            dubboCartService.removeUserCarts(omsCart);
-//        }
-//        //写入数据库order
-//        orderMapper.insertOrder(omsOrder);
-//        //写入数据库order_item
-//        orderItemMapper.insertOrderItems(omsOrderItems);
-//        OrderAddVO orderAddVO = new OrderAddVO();
-//        orderAddVO.setCreateTime(omsOrder.getGmtCreate());
-//        orderAddVO.setSn(omsOrder.getSn());
-//        orderAddVO.setId(omsOrder.getId());
-//        orderAddVO.setPayAmount(omsOrder.getAmountOfActualPay());
-//
-//        return orderAddVO;
-        return null;
+    public void addOrder(OrderAddDTO orderAddDTO) {
+        String sn = orderAddDTO.getSn();
+        //利用sn查询是否存在订单
+        boolean existsOrder=orderMapper.selectExistBySn(sn);
+        if (existsOrder){
+            log.error( "订单已经存在,sn:{},重复下单",sn);
+            throw new CoolSharkServiceException(ResponseCode.CONFLICT,"订单已经存在");
+        }
+        //订单不存在,消息事务
+        //发送半消息事务
+        Message<String> message= MessageBuilder.withPayload(sn).build();
+        rocketMQTemplate.sendMessageInTransaction("tx-order-add-topic",message,orderAddDTO);
     }
 
     @Override

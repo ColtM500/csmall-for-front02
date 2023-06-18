@@ -27,4 +27,8 @@ import org.apache.ibatis.annotations.Param;
  */
 public interface OmsOrderItemMapper {
     void insertOrderItems(@Param("omsOrderItems") List<OmsOrderItem> omsOrderItems);
+
+    boolean selectExistsByOrderId(@Param("orderId")Long id);
+
+    List<String> selectSkuIdsByOrderId(@Param("orderId")Long id);
 }

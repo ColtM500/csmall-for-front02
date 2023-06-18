@@ -58,4 +58,6 @@ public class OrderItemAddDTO implements OrderItemRegExpression,Serializable {
     @ApiModelProperty(value="商品SKU购买数量",example = "10")
     @NotNull(message =VALIDATE_MESSAGE_PREFIX+"请提供商品购买数量" )
     private Integer quantity;
+
+
 }

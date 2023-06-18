@@ -38,7 +38,7 @@ public interface IOmsOrderService {
      * @param orderAddDTO
      * @return 订单编号
      */
-    OrderAddVO addOrder(OrderAddDTO orderAddDTO);
+    void addOrder(OrderAddDTO orderAddDTO);
 
     /**
      * 更新订单状态
