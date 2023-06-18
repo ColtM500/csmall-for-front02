@@ -15,7 +15,7 @@
  * limitations under the License.
  */
 
-package cn.tedu.mall.front.config;
+package cn.tedu.mall.order.config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -34,8 +34,8 @@ public class Knife4jConfiguration {
     @Bean
     public ApiInfo apiInfo() {
         return new ApiInfoBuilder()
-            .title("Front前台商品系统")
-            .description("Front前台商品系统接口文档")
+            .title("订单购物车系统")
+            .description("订单购物车系统接口文档")
             .termsOfServiceUrl("地址待定")
             .contact(new Contact("", "", ""))
             .version("1.0")
@@ -46,9 +46,9 @@ public class Knife4jConfiguration {
     public Docket createRestApi(ApiInfo apiInfo) {
         return new Docket(DocumentationType.SWAGGER_2)
             .apiInfo(apiInfo)
-            .groupName("Front前台商品系统")
+            .groupName("订单购物车系统")
             .select()
-            .apis(RequestHandlerSelectors.basePackage("cn.tedu.mall.front.controller"))
+            .apis(RequestHandlerSelectors.basePackage("cn.tedu.mall.order.controller"))
             .paths(PathSelectors.any())
             .build();
     }

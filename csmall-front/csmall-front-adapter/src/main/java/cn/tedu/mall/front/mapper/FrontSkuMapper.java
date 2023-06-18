@@ -6,4 +6,8 @@ import org.apache.ibatis.annotations.Param;
 
 public interface FrontSkuMapper {
     List<SkuStandardVO> listSkuBySpuId(@Param("spuId")Long id);
+
+    SkuStandardVO selectSkuById(@Param("id")Long id);
+
+    List<SkuStandardVO> selectSkusByIds(List<Long> ids);
 }

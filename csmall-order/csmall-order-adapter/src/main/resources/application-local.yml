@@ -1,29 +1,25 @@
-# 日志显示级别
-logging:
-  level:
-    cn.tedu.mall: trace
 spring:
-  application:
-    name: csmall-front
-  # 数据源配置
   datasource:
-    url: jdbc:mysql://localhost:3306/mall_pms?useSSL=false&useUnicode=true&characterEncoding=utf-8&serverTimezone=Asia/Shanghai&allowMultiQueries=true&allowPublicKeyRetrieval=true
+    url: jdbc:mysql://localhost:3306/mall_oms?useSSL=false&useUnicode=true&characterEncoding=utf-8&serverTimezone=Asia/Shanghai&allowMultiQueries=true&allowPublicKeyRetrieval=true
     username: root
-    password: local
+    password: root
     driver-class-name: com.mysql.cj.jdbc.Driver
+  application:
+    name: mall-order
   jackson:
+    # 为null的属性不显示到响应结果中
     default-property-inclusion: always
   cloud:
     nacos:
       discovery:
         server-addr: localhost:8848
   redis:
-    host: localhost
     port: 6379
-
+    host: localhost
+    password:
 dubbo:
   application:
-    name: csmall-front
+    name: mall-order
   protocol:
     port: -1
     name: dubbo
@@ -34,4 +30,7 @@ dubbo:
   consumer:
     check: false
   cloud:
-    subscribed-services:
+    subscribed-services: mall-front
+logging:
+  level:
+    cn.tedu.mall: trace

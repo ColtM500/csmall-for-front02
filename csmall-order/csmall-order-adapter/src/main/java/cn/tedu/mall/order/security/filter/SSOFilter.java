@@ -1,10 +1,10 @@
-package cn.tedu.mall.sso.security.filter;
+package cn.tedu.mall.order.security.filter;
 
 import cn.tedu.mall.common.config.PrefixConfiguration;
 import cn.tedu.mall.common.pojo.domain.CsmallAuthenticationInfo;
 import cn.tedu.mall.common.utils.JwtTokenUtils;
 import java.io.IOException;
-import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import javax.servlet.FilterChain;
 import javax.servlet.ServletException;
@@ -15,10 +15,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.redis.core.HashOperations;
 import org.springframework.data.redis.core.RedisTemplate;
-import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.web.authentication.WebAuthenticationDetailsSource;
 import org.springframework.stereotype.Component;
@@ -76,6 +74,7 @@ public class SSOFilter extends OncePerRequestFilter {
             }
             if (redisExpiredTime != null && redisExpiredTime > System.currentTimeMillis()) {
                 log.debug("token未过期");
+                log.debug("过期时间续期为:{}",new Date(System.currentTimeMillis() + jwtTokenUtils.getExpiration()));
                 //进入续期操作
                 operations.put(userTokenKey, "expiredTime", System.currentTimeMillis() + jwtTokenUtils.getExpiration());
             }else {

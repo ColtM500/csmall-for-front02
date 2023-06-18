@@ -7,6 +7,7 @@ import java.util.Date;
 import java.util.List;
 import lombok.Data;
 import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 @Data
@@ -25,17 +26,22 @@ public class UserUserDetails implements Serializable, UserDetails {
     private Date gmtLastLogin;
     private Date gmtCreate;
     private Date gmtModified;
-    private List<UserAutority> authorities;
+    private List<String> authorities;
 
     public UserUserDetails() {
         authorities =new ArrayList<>();
-        UserAutority authority=new UserAutority();
-        authority.setAuthority("ROLE_user");
-        authorities.add(authority);
+        authorities.add("ROLE_user");
     }
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
+        List<GrantedAuthority> authorities=new ArrayList<>();
+        if (this.authorities==null||this.authorities.size()==0){
+            return null;
+        }
+        for (String authority : this.authorities) {
+            authorities.add(new SimpleGrantedAuthority(authority));
+        }
         return authorities;
     }
 

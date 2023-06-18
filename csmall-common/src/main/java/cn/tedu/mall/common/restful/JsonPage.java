@@ -40,6 +40,24 @@ public class JsonPage<T> implements Serializable {
         return result;
     }
 
+    public static <T> JsonPage<T> nullPage(){
+        JsonPage<T> result = new JsonPage<T>();
+        result.setTotalPage(0);
+        result.setPage(0);
+        result.setPageSize(0);
+        result.setTotal(0L);
+        result.setList(null);
+        return result;
+    }
+    public static <T> JsonPage<T> defaultPage(List<T> list){
+        JsonPage<T> result = new JsonPage<T>();
+        result.setTotalPage(1);
+        result.setPage(1);
+        result.setPageSize(list.size());
+        result.setTotal((long)list.size());
+        result.setList(list);
+        return result;
+    }
 
 
 

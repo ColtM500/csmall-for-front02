@@ -39,125 +39,19 @@
             pms_sku.sort
         </if>
     </sql>
-    <!-- List<SkuVO> listBySpuId(Long spuId); -->
+    <!-- List<SkuVO> listBySpuId(Long spuId); Used-->
     <select id="listSkuBySpuId" resultMap="StandardResultMap">
         select
         <include refid="StandardQueryFields"/>
         from pms_sku left join pms_spu on pms_sku.spu_id = pms_spu.id
         where pms_sku.spu_id = #{spuId} and  pms_spu.is_deleted=0 and  pms_spu.is_published=1 and pms_spu.is_checked=1
     </select>
-
-
-    <!-- 注意：此id是分布式的，从外部生成，不是自动编号的，则需要插入id值 -->
-    <!-- int insert(Sku sku); -->
-    <insert id="insert">
-        insert into pms_sku (id, spu_id, title, bar_code, attribute_template_id, specifications,
-                             album_id, pictures, price, stock, stock_threshold, sort)
-        values (#{id}, #{spuId}, #{title}, #{barCode}, #{attributeTemplateId}, #{specifications},
-                #{albumId}, #{pictures}, #{price}, #{stock}, #{stockThreshold}, #{sort})
-    </insert>
-
-    <!-- 注意：此id是分布式的，从外部生成，不是自动编号的，则需要插入id值 -->
-    <!-- int insertBatch(List<Sku> skuList); -->
-    <insert id="insertBatch">
-        insert into pms_sku (id,spu_id,title,bar_code,attribute_template_id,specifications,
-        album_id,pictures,price,stock,stock_threshold,sort) values
-        <foreach collection="list" item="sku" separator=",">
-            (#{sku.id},
-             #{sku.spuId},
-             #{sku.title},
-             #{sku.barCode},
-             #{sku.attributeTemplateId},
-             #{sku.specifications},
-             #{sku.albumId},
-             #{sku.pictures},
-             #{sku.price},
-             #{sku.stock},
-             #{sku.stockThreshold},
-             #{sku.sort})
-        </foreach>
-    </insert>
-
-    <!-- int deleteById(Long id); -->
-    <delete id="deleteById">
-        delete
-        from pms_sku
-        where id = #{id}
-    </delete>
-
-    <!-- int updateFullInfoById(Sku sku); -->
-    <update id="updateFullInfoById">
-        update pms_sku
-        <set>
-            <if test="spuId != null">
-                spu_id=#{spuId},
-            </if>
-            <if test="title != null">
-                title=#{title},
-            </if>
-            <if test="barCode != null">
-                bar_code=#{barCode},
-            </if>
-            <if test="attributeTemplateId != null">
-                attribute_template_id=#{attributeTemplateId},
-            </if>
-            <if test="specifications != null">
-                specifications=#{specifications},
-            </if>
-            <if test="albumId != null">
-                album_id=#{albumId},
-            </if>
-            <if test="pictures != null">
-                pictures=#{pictures},
-            </if>
-            <if test="price != null">
-                price=#{price},
-            </if>
-            <if test="stock != null">
-                stock=#{stock},
-            </if>
-            <if test="stockThreshold != null">
-                stock_threshold=#{stockThreshold},
-            </if>
-            <if test="sales != null">
-                sales=#{sales},
-            </if>
-            <if test="commentCount != null">
-                comment_count=#{commentCount},
-            </if>
-            <if test="positiveCommentCount != null">
-                positive_comment_count=#{positiveCommentCount},
-            </if>
-            <if test="sort != null">
-                sort=#{sort},
-            </if>
-        </set>
-        where id=#{id}
-    </update>
-
-    <!-- int sumStockBySpuId(Long spuId); -->
-    <select id="sumStockBySpuId" resultType="int">
-        SELECT SUM(stock)
-        FROM pms_sku
-        WHERE spu_id = #{spuId}
-    </select>
-
-    <!-- BigDecimal getMinPriceBySpuId(Long spuId); -->
-    <select id="getMinPriceBySpuId" resultType="java.math.BigDecimal">
-        SELECT MIN(price)
-        FROM pms_sku
-        WHERE spu_id = #{spuId}
-    </select>
-
-    <!-- SkuVO getById(Long id); -->
-    <select id="getById" resultMap="StandardResultMap">
+    <!-- SkuVO getById(Long id); Used-->
+    <select id="selectSkuById" resultMap="StandardResultMap">
         select
         <include refid="StandardQueryFields"/>
         from pms_sku
         where id = #{id}
     </select>
-    <update id="updateStockById">
-        update pms_sku set stock=stock-#{stock}
-        where id=#{id} and stock>#{stock}
-    </update>
+    <!-- 给购物车批量查询; Used-->
 </mapper>

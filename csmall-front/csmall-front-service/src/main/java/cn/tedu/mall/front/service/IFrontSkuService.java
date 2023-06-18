@@ -5,4 +5,6 @@ import java.util.List;
 
 public interface IFrontSkuService {
     List<SkuStandardVO> getSkus(Long id);
+    SkuStandardVO getSku(Long id);
+    List<SkuStandardVO> listSkuByIds(List<Long> ids);
 }
