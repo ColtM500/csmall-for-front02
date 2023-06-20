@@ -13,6 +13,8 @@
         <module>csmall-stock</module>
         <module>csmall-seckill</module>
         <module>csmall-front</module>
+        <module>csmall-seckill/csmall-seckill-adapter</module>
+        <module>csmall-seckill/csmall-seckill-service</module>
     </modules>
     <parent>
         <artifactId>spring-boot-starter-parent</artifactId>

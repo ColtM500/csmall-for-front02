@@ -1,58 +1,105 @@
 package cn.tedu.mall.pojo.seckill.model;
 
-import lombok.Data;
-import lombok.EqualsAndHashCode;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
+import lombok.Data;
+
 /**
- * <p>
- *
- * </p>
+ * <p>SKU（Stock Keeping Unit）表</p>
  *
  * @author tedu.cn
- * @since 2022-02-23
+ * @since 2021-11-30
  */
 @Data
 public class SeckillSku implements Serializable {
-    private static final long serialVersionUID = 1L;
+
     /**
-     * 表主键
+     * 记录id
      */
     private Long id;
 
     /**
-     * 秒杀商品sku关联id
-     */
-    private Long skuId;
-
-    /**
-     * 秒杀商品spu关联id
+     * SPU id
      */
     private Long spuId;
 
     /**
-     * 秒杀商品库存数
+     * 标题
      */
-    private Integer seckillStock;
+    private String title;
 
     /**
-     * 秒杀价钱
+     * 条型码
+     */
+    private String barCode;
+
+    /**
+     * 属性模板id
+     */
+    private Long attributeTemplateId;
+
+    /**
+     * 全部属性，使用JSON格式表示（冗余）
+     */
+    private String specifications;
+
+    /**
+     * 相册id
+     */
+    private Long albumId;
+
+    /**
+     * 组图URLs，使用JSON格式表示
+     */
+    private String pictures;
+
+    /**
+     * 原价
+     */
+    private BigDecimal price;
+    /**
+     * 秒杀价
      */
     private BigDecimal seckillPrice;
+    /**
+     * 秒杀库存
+     */
+    private Integer stock;
 
     /**
-     * 创建时间
+     * 库存预警阈值
+     */
+    private Integer stockThreshold;
+
+    /**
+     * 销量（冗余）
+     */
+    private Integer sales;
+
+    /**
+     * 买家评论数量总和（冗余）
+     */
+    private Integer commentCount;
+
+    /**
+     * 买家好评数量总和（冗余）
+     */
+    private Integer positiveCommentCount;
+
+    /**
+     * 自定义排序序号
+     */
+    private Integer sort;
+
+    /**
+     * 数据创建时间
      */
     private LocalDateTime gmtCreate;
 
     /**
-     * 更新时间
+     * 数据最后修改时间
      */
     private LocalDateTime gmtModified;
 
-    /**
-     * 秒杀商品数量限制,最多一个用户可以秒杀的商品个数,如果是0表示没有限制
-     */
-    private Integer seckillLimit;
 }
