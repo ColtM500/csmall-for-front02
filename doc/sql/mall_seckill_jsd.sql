@@ -68,8 +68,8 @@ CREATE TABLE `seckill_spu` (
   `attribute_template_id` bigint(20) unsigned DEFAULT NULL COMMENT '属性模版id',
   `album_id` bigint(20) unsigned DEFAULT NULL COMMENT '相册id',
   `pictures` varchar(500) DEFAULT NULL COMMENT '组图URLs，使用JSON数组表示',
-  `gmt_start` timestamp NULL DEFAULT NULL,
-  `gmt_end` timestamp NULL DEFAULT NULL,
+  `start_time` timestamp NULL DEFAULT NULL,
+  `end_time` timestamp NULL DEFAULT NULL,
   `gmt_create` timestamp NULL DEFAULT NULL COMMENT '数据创建时间',
   `gmt_modified` timestamp NULL DEFAULT NULL COMMENT '数据最后修改时间',
   PRIMARY KEY (`id`)
@@ -77,7 +77,7 @@ CREATE TABLE `seckill_spu` (
 
 /*Data for the table `seckill_spu` */
 
-insert  into `seckill_spu`(`id`,`name`,`type_number`,`title`,`description`,`list_price`,`stock`,`stock_threshold`,`unit`,`brand_id`,`brand_name`,`category_id`,`category_name`,`attribute_template_id`,`album_id`,`pictures`,`gmt_start`,`gmt_end`,`gmt_create`,`gmt_modified`) values (2,'小米11 Ultra','M112021','小米11 Ultra（M112021）','2021年最新旗舰机',2000.00,100,20,'部',2,'小米',3,'智能手机',1,NULL,'//img13.360buyimg.com/n7/jfs/t1/148953/1/34948/40281/64891e4eF95c6e5a6/c26d682bb4659786.jpg','2022-03-31 00:00:00','2030-12-01 00:00:00','2022-03-31 11:16:37','2022-03-31 15:22:36');
+insert  into `seckill_spu`(`id`,`name`,`type_number`,`title`,`description`,`list_price`,`stock`,`stock_threshold`,`unit`,`brand_id`,`brand_name`,`category_id`,`category_name`,`attribute_template_id`,`album_id`,`pictures`,`start_time`,`end_time`,`gmt_create`,`gmt_modified`) values (2,'小米11 Ultra','M112021','小米11 Ultra（M112021）','2021年最新旗舰机',2000.00,100,20,'部',2,'小米',3,'智能手机',1,NULL,'//img13.360buyimg.com/n7/jfs/t1/148953/1/34948/40281/64891e4eF95c6e5a6/c26d682bb4659786.jpg','2022-03-31 00:00:00','2030-12-01 00:00:00','2022-03-31 11:16:37','2022-03-31 15:22:36');
 
 /*Table structure for table `seckill_stock_log` */
 
