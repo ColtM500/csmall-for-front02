@@ -9,8 +9,6 @@
         <module>csmall-common</module>
         <module>csmall-sso</module>
         <module>csmall-order</module>
-        <module>csmall-cart</module>
-        <module>csmall-stock</module>
         <module>csmall-seckill</module>
         <module>csmall-front</module>
         <module>csmall-seckill/csmall-seckill-adapter</module>

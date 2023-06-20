@@ -9,13 +9,11 @@ spring:
     default-property-inclusion: non_null
   profiles:
     active: local
-#可能没用
 jwt:
   tokenHeader: Authorization #JWT存储的请求头
   secret: mySecret #JWT加解密使用的密钥
   expiration: 604800000 #注意这个是毫秒数 目前是7天
   tokenHead: Bearer
-#TODO 可能没用
 csmall:
   jwt:
     expiration: 640800
