@@ -24,6 +24,9 @@ public class SeckillOrderAddDTO implements SeckillOrderRegExpression,Serializabl
     @ApiModelProperty(value="spuId",example="2")
     @NotNull(message = VALIDATE_MESSAGE_PREFIX+"请提供SPUID值")
     private Long spuId;
+
+    @ApiModelProperty(value="sn",example="2")
+    private String sn;
     /**
      * 联系人姓名（冗余，历史）
      */

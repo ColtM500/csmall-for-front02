@@ -94,6 +94,8 @@ public class SeckillSpu implements Serializable {
      */
     private String pictures;
 
+    private LocalDateTime startTime;
+    private LocalDateTime endTime;
     /**
      * 数据创建时间
      */
