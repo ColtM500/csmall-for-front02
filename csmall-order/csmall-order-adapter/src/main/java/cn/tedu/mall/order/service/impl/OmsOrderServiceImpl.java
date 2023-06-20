@@ -90,30 +90,28 @@ public class OmsOrderServiceImpl implements IOmsOrderService {
 
     @Override
     public void updateOrderState(OrderStateUpdateDTO orderStateUpdateDTO) {
-//        OmsOrder omsOrder = new OmsOrder();
-//        BeanUtils.copyProperties(orderStateUpdateDTO, omsOrder);
-//        orderMapper.updateOrderById(omsOrder);
+        OmsOrder omsOrder = new OmsOrder();
+        BeanUtils.copyProperties(orderStateUpdateDTO, omsOrder);
+        orderMapper.updateOrderById(omsOrder);
     }
 
     @Override
     public JsonPage<OrderListVO> listOrdersBetweenTimes(OrderListTimeDTO orderListTimeDTO) {
-//        //对参数的日期时间做一下格式化,有错误抛异常,没错误校验,订正添加默认时间
-//        formatTimeValidAndReplenish(orderListTimeDTO);
-//        //获取userId
-//        Long userId = getUserId();
-//        orderListTimeDTO.setUserId(userId);
-//        //开启分页查询
-//        PageHelper.startPage(orderListTimeDTO.getPage(), orderListTimeDTO.getPageSize());
-//        List<OrderListVO> orders = orderMapper.selectOrdersBetweenTimes(orderListTimeDTO);
-//        return JsonPage.restPage(new PageInfo<>(orders));
-        return null;
+        //对参数的日期时间做一下格式化,有错误抛异常,没错误校验,订正添加默认时间
+        formatTimeValidAndReplenish(orderListTimeDTO);
+        //获取userId
+        Long userId = getUserId();
+        orderListTimeDTO.setUserId(userId);
+        //开启分页查询
+        PageHelper.startPage(orderListTimeDTO.getPage(), orderListTimeDTO.getPageSize());
+        List<OrderListVO> orders = orderMapper.selectOrdersBetweenTimes(orderListTimeDTO);
+        return JsonPage.restPage(new PageInfo<>(orders));
     }
 
     @Override
     public OrderDetailVO getOrderDetail(Long id) {
-//        OrderDetailVO orderDetailVO = orderMapper.selectOrderById(id);
-//        return orderDetailVO;
-        return null;
+        OrderDetailVO orderDetailVO = orderMapper.selectOrderById(id);
+        return orderDetailVO;
     }
 
     private void formatTimeValidAndReplenish(OrderListTimeDTO orderListTimeDTO) {
@@ -135,76 +133,12 @@ public class OmsOrderServiceImpl implements IOmsOrderService {
             orderListTimeDTO.setEndTime(end);
         }
     }
-
-    public void replenishOrderItem(OmsOrderItem omsOrderItem) {
-//        if (omsOrderItem.getId() == null) {
-//            Long id = segmentService.getId("order_item").getId();
-//            omsOrderItem.setId(id);
-//        }
-//        if (omsOrderItem.getSkuId() == null) {
-//            throw new CoolSharkServiceException(ResponseCode.BAD_REQUEST, "新增订单商品SKUID不能为空");
-//        }
-    }
-
-    public void replenishOrder(OmsOrder omsOrder) {
-//        //补充orderId,这里还是需要校验的,因为spring-boot-starter-validation只局限在控制层校验
-//        if (omsOrder.getId() == null) {
-//            //Long id = IdGeneratorUtils.getDistributeId("order");
-//            Long id = segmentService.getId("order").getId();
-//            omsOrder.setId(id);
-//        }
-//        //补充userId
-//        if (omsOrder.getUserId() == null) {
-//            Long userId = getUserId();
-//            omsOrder.setUserId(userId);
-//        }
-//        //生成sn
-//        if (omsOrder.getSn() == null) {
-//            omsOrder.setSn(UUID.randomUUID().toString());//暂定使用uuid填补sn订单编号
-//        }
-//        //默认状态未支付
-//        if (omsOrder.getState() == null) {
-//            omsOrder.setState(0);
-//        }
-//        //创建时间,后续时间以创建时间为准
-//        if (omsOrder.getGmtCreate() == null) {
-//            omsOrder.setGmtCreate(LocalDateTime.now());
-//        }
-//        if (omsOrder.getGmtModified() == null) {
-//            omsOrder.setGmtModified(omsOrder.getGmtCreate());
-//        }
-//        if (omsOrder.getGmtOrder() == null) {
-//            omsOrder.setGmtModified(omsOrder.getGmtCreate());
-//        }
-//        //金额调整,为null的金额 默认是0
-//        if (omsOrder.getAmountOfDiscount() == null) {
-//            omsOrder.setAmountOfDiscount(new BigDecimal(0.0));
-//        }
-//        if (omsOrder.getAmountOfFreight() == null) {
-//            omsOrder.setAmountOfFreight(new BigDecimal(0.0));
-//        }
-//        if (omsOrder.getAmountOfOriginalPrice() == null) {
-//            throw new CoolSharkServiceException(ResponseCode.BAD_REQUEST, "请前端利用商品价钱,数量计算商品总价");
-//        }
-//        if (omsOrder.getAmountOfActualPay() == null) {
-//            log.debug("前端没有计算实际支付价钱,需要后台计算");
-//            //拿到商品总价
-//            BigDecimal originalPrice = omsOrder.getAmountOfOriginalPrice();
-//            //拿到优惠价格和运费
-//            BigDecimal disCount = omsOrder.getAmountOfDiscount();
-//            BigDecimal freight = omsOrder.getAmountOfFreight();
-//            //商品原价减去优惠,加上运费
-//            BigDecimal actualPay = originalPrice.subtract(disCount).add(freight);
-//            omsOrder.setAmountOfActualPay(actualPay);
-//        }
-    }
-
     public CsmallAuthenticationInfo getUserInfo() {
         //从security环境获取username,先拿到authentication
         UsernamePasswordAuthenticationToken authentication = (UsernamePasswordAuthenticationToken) SecurityContextHolder.getContext().getAuthentication();
         //如果不是空的可以调用dubbo远程微服务获取adminVO
         if (authentication != null) {
-            CsmallAuthenticationInfo csmallAuthenticationInfo = (CsmallAuthenticationInfo) authentication.getCredentials();
+            CsmallAuthenticationInfo csmallAuthenticationInfo = (CsmallAuthenticationInfo) authentication.getPrincipal();
             return csmallAuthenticationInfo;
         } else {
             throw new CoolSharkServiceException(ResponseCode.UNAUTHORIZED, "没有登录者信息");
@@ -215,5 +149,4 @@ public class OmsOrderServiceImpl implements IOmsOrderService {
         CsmallAuthenticationInfo userInfo = getUserInfo();
         return userInfo.getId();
     }
-
 }

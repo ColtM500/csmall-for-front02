@@ -81,7 +81,6 @@ public class OmsOrderController {
     @ApiOperation("更新订单状态")
     @PreAuthorize("hasRole('ROLE_user')")
     public JsonResult updateOrderState(OrderStateUpdateDTO orderStateUpdateDTO) {
-
         orderService.updateOrderState(orderStateUpdateDTO);
         return JsonResult.ok();
     }
@@ -95,9 +94,7 @@ public class OmsOrderController {
     public JsonResult<JsonPage<OrderListVO>> listUserOrders(OrderListTimeDTO orderListTimeDTO) {
         JsonPage<OrderListVO> orderVOJsonPage = orderService.listOrdersBetweenTimes(orderListTimeDTO);
         return JsonResult.ok(orderVOJsonPage);
-
     }
-
     @ApiOperation(value = "利用订单id查询订单")
     @GetMapping("/detail")
     @ApiImplicitParams({

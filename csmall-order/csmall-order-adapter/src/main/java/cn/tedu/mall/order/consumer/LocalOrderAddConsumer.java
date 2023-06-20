@@ -77,6 +77,5 @@ public class LocalOrderAddConsumer implements RocketMQListener<MessageExt> {
                 log.info("释放锁失败");
             }
         }
-
     }
 }

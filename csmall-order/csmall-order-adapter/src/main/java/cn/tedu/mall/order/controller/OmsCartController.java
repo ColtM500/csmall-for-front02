@@ -19,7 +19,6 @@ package cn.tedu.mall.order.controller;
 import cn.tedu.mall.common.restful.JsonPage;
 import cn.tedu.mall.common.restful.JsonResult;
 import cn.tedu.mall.order.service.IOmsCartService;
-import cn.tedu.mall.order.utils.WebConsts;
 import cn.tedu.mall.pojo.order.dto.CartAddDTO;
 import cn.tedu.mall.pojo.order.dto.CartUpdateDTO;
 import cn.tedu.mall.pojo.order.vo.CartStandardVO;
@@ -66,8 +65,8 @@ public class OmsCartController {
     })
     @PreAuthorize("hasRole('ROLE_user')")
     public JsonResult<JsonPage<CartStandardVO>> listCarts(
-        @RequestParam(required = false, defaultValue = WebConsts.DEFAULT_PAGE) Integer page,
-        @RequestParam(required = false, defaultValue = WebConsts.DEFAULT_PAGE_SIZE) Integer pageSize) {
+        @RequestParam(required = false, defaultValue = "1") Integer page,
+        @RequestParam(required = false, defaultValue = "5") Integer pageSize) {
         JsonPage<CartStandardVO> carts = cartService.listCarts(page, pageSize);
         return JsonResult.ok(carts);
     }

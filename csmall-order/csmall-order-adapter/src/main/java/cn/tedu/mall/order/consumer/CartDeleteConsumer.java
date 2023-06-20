@@ -26,10 +26,30 @@ public class CartDeleteConsumer implements RocketMQListener<String> {
     @Autowired
     private RedisTemplate redisTemplate;
     @Override public void onMessage(String message) {
-        String sn=message;
-        log.debug("获取sn:{}",sn);
-        //先用sn查询order
-        OrderDetailVO order = orderMapper.selectOrderBySn(sn);
+        int selectOrderSNtimes=0;
+        String sn=null;
+        OrderDetailVO order =null;
+        do {
+            sn=message;
+            log.debug("获取sn:{}",sn);
+            //先用sn查询order
+            order = orderMapper.selectOrderBySn(sn);
+            log.debug("查询到的order:{}", JSON.toJSONString(order,true));
+            if (order == null){
+                log.debug("当前异步流程没有查询到订单:",sn);
+                selectOrderSNtimes++;
+            }else{
+                break;
+            }
+            if (selectOrderSNtimes>0){
+                log.error("订单没有查询到,可能订单新增出现问题,sn:{}",sn);
+                try {
+                    Thread.sleep(100);
+                } catch (InterruptedException e) {
+                    throw new RuntimeException(e);
+                }
+            }
+        }while(selectOrderSNtimes<3);
         log.debug("查询到的order:{}", JSON.toJSONString(order,true));
         //拿到userId
         String userId=order.getUserId()+"";

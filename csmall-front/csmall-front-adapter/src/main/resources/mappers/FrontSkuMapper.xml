@@ -53,5 +53,24 @@
         from pms_sku
         where id = #{id}
     </select>
-    <!-- 给购物车批量查询; Used-->
+    <!-- 更新库存-->
+    <update id="decrStockCounts" >
+        update pms_sku
+        set stock = stock - #{quantity},gmt_modified = now()
+        where id = #{id}
+    </update>
+    <update id="incrStockCounts" >
+        update pms_sku
+        set stock = stock + #{quantity},gmt_modified = now()
+        where id = #{id}
+    </update>
+    <!--记录日志-->
+    <insert id="insertSkuStockLog">
+        insert into pms_stock_log
+        (sku_id,order_sn,quantity,gmt_create,gmt_modified)
+        values (#{skuId},#{orderSN},#{quantity},now(),now());
+    </insert>
+    <select id="selectStockLogBySn" resultType="cn.tedu.mall.pojo.front.entity.FrontStockLog">
+        select * from pms_stock_log where order_sn = #{orderSN}
+    </select>
 </mapper>
