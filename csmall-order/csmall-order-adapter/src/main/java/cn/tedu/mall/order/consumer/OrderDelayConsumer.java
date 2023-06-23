@@ -4,6 +4,7 @@ import cn.tedu.mall.front.service.IFrontSkuService;
 import cn.tedu.mall.order.mapper.OmsOrderMapper;
 import cn.tedu.mall.pojo.order.model.OmsOrder;
 import cn.tedu.mall.pojo.order.vo.OrderDetailVO;
+import cn.tedu.mall.seckill.service.ISeckillSkuService;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.dubbo.config.annotation.DubboReference;
 import org.apache.rocketmq.spring.annotation.RocketMQMessageListener;
@@ -19,6 +20,8 @@ public class OrderDelayConsumer implements RocketMQListener<String> {
     private OmsOrderMapper orderMapper;
     @DubboReference
     private IFrontSkuService skuService;
+    @DubboReference
+    private ISeckillSkuService seckillSkuService;
     @Override public void onMessage(String message) {
         //如果发现订单超时,则关闭订单,并且回退库存
         OrderDetailVO order = orderMapper.selectOrderBySn(message);
@@ -35,6 +38,7 @@ public class OrderDelayConsumer implements RocketMQListener<String> {
                 omsOrder.setState(1);
                 orderMapper.updateOrderById(omsOrder);
                 skuService.returnStock(message);
+                seckillSkuService.returnStock(message);
             }
         }
     }

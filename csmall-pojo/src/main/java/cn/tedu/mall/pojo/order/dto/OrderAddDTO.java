@@ -14,7 +14,7 @@ import java.util.List;
 
 @ApiModel(value="订单新增DTO")
 @Data
-public class OrderAddDTO implements OrderRegExpression,Serializable {
+public class OrderAddDTO extends OrderAddCondition implements OrderRegExpression,Serializable {
     private static final String VALIDATE_MESSAGE_PREFIX = "新增订单失败，";
     private static final long serialVersionUID = 1L;
     /**

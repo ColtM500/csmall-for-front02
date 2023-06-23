@@ -32,13 +32,6 @@ import cn.tedu.mall.pojo.order.vo.OrderListVO;
  * @since 2022-02-16
  */
 public interface IOmsOrderService {
-    /**
-     * 新增订单
-     *
-     * @param orderAddDTO
-     * @return 订单编号
-     */
-    void addOrder(OrderAddDTO orderAddDTO);
 
     /**
      * 更新订单状态

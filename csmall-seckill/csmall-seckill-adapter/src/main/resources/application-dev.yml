@@ -30,7 +30,7 @@ dubbo:
   consumer:
     check: false
   cloud:
-    subscribed-services:
+    subscribed-services: mall-front
 logging:
   level:
     cn.tedu.mall: trace

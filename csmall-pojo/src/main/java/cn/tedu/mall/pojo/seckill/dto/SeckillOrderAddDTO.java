@@ -1,6 +1,6 @@
 package cn.tedu.mall.pojo.seckill.dto;
 
-import cn.tedu.mall.pojo.order.dto.OrderItemAddDTO;
+import cn.tedu.mall.pojo.order.dto.OrderAddCondition;
 import cn.tedu.mall.pojo.valid.seckill.SeckillOrderRegExpression;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
@@ -10,11 +10,10 @@ import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
 import java.io.Serializable;
 import java.math.BigDecimal;
-import java.util.List;
 
 @ApiModel(value="秒杀订单新增DTO")
 @Data
-public class SeckillOrderAddDTO implements SeckillOrderRegExpression,Serializable {
+public class SeckillOrderAddDTO extends OrderAddCondition implements SeckillOrderRegExpression,Serializable {
     private static final String VALIDATE_MESSAGE_PREFIX = "秒杀新增订单失败，";
     private static final long serialVersionUID = 1L;
     /**

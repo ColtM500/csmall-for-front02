@@ -18,9 +18,15 @@ package cn.tedu.mall.seckill.service.impl;
 
 import cn.tedu.mall.common.exception.CoolSharkServiceException;
 import cn.tedu.mall.common.restful.ResponseCode;
+import cn.tedu.mall.pojo.seckill.dto.SeckillOrderItemAddDTO;
+import cn.tedu.mall.pojo.seckill.model.SeckillStockLog;
 import cn.tedu.mall.pojo.seckill.vo.SeckillSkuVO;
+import cn.tedu.mall.seckill.mapper.SeckillSkuMapper;
 import cn.tedu.mall.seckill.service.ISeckillSkuService;
 import java.util.List;
+import lombok.extern.slf4j.Slf4j;
+import org.apache.dubbo.config.annotation.DubboService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 /**
@@ -30,12 +36,17 @@ import org.springframework.stereotype.Service;
  *
  * @since 2022-02-23
  */
+
+@DubboService
 @Service
+@Slf4j
 public class SeckillSkuServiceImpl extends AbstractSeckillServiceImpl<SeckillSkuVO> implements ISeckillSkuService {
     public static final String SECKILL_SKU_BLOOM_KEY="seckill:sku:bloom";
     public static final String SECKILL_SKUS_PREFIX = "seckill:skus:";
     public static final String SECKILL_SKU_STOCK_PREFIX="seckill:sku:stock:";
     public static final String SECKILL_RESEC_SKU_PREFIX="seckill:resec:sku:";
+    @Autowired
+    private SeckillSkuMapper seckillSkuMapper;
     /**
      * 只从缓存获取数据
      * @param spuId
@@ -49,5 +60,17 @@ public class SeckillSkuServiceImpl extends AbstractSeckillServiceImpl<SeckillSku
             throw new CoolSharkServiceException(ResponseCode.BAD_REQUEST,"没有秒杀商品");
         }
         return cache;
+    }
+
+    @Override public void redusSeckillSkuCount(SeckillOrderItemAddDTO dto, String sn) {
+        Integer quantity = dto.getQuantity();
+        Long skuId= dto.getSkuId();
+        seckillSkuMapper.decrSkuStock(skuId,quantity);
+        seckillSkuMapper.insertStockLog(sn,skuId,quantity);
+    }
+
+    @Override public void returnStock(String sn) {
+        SeckillStockLog stockLog=seckillSkuMapper.selectStockLogBySn(sn);
+        seckillSkuMapper.incrSkuStock(stockLog.getSkuId(),stockLog.getQuantity());
     }
 }

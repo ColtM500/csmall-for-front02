@@ -1,4 +1,4 @@
-package cn.tedu.mall.seckill.service;/*
+/*
  * Licensed to the Apache Software Foundation (ASF) under one or more
  * contributor license agreements.  See the NOTICE file distributed with
  * this work for additional information regarding copyright ownership.
@@ -14,24 +14,23 @@ package cn.tedu.mall.seckill.service;/*
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+package cn.tedu.mall.order.service;
 
-import cn.tedu.mall.pojo.seckill.dto.SeckillOrderItemAddDTO;
-import cn.tedu.mall.pojo.seckill.vo.SeckillSkuVO;
-import java.util.List;
+import cn.tedu.mall.pojo.order.dto.OrderAddCondition;
 
 /**
  * <p>
- *  服务类
+ * 订单数据表 服务类
  * </p>
  *
- *
- * @since 2022-02-23
+ * @since 2022-02-16
  */
-public interface ISeckillSkuService {
-
-    List<SeckillSkuVO> listSeckillSkus(Long spuId);
-
-    void redusSeckillSkuCount(SeckillOrderItemAddDTO dto, String sn);
-
-    void returnStock(String sn);
+public interface IOrderAddService {
+    /**
+     * 新增订单
+     *
+     * @param OrderAddCondition
+     * @return 订单编号
+     */
+    void addOrder(OrderAddCondition orderAddCondition);
 }

@@ -19,7 +19,7 @@ spring:
 #TODO 暂时留着
 dubbo:
   application:
-    name: csmall-front
+    name: mall-front
   protocol:
     port: -1
     name: dubbo
@@ -29,3 +29,4 @@ dubbo:
     use-as-metadata-center: false
   consumer:
     check: false
+

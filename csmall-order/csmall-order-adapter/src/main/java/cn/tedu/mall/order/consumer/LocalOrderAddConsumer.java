@@ -3,6 +3,7 @@ package cn.tedu.mall.order.consumer;
 import cn.tedu.mall.common.exception.CoolSharkServiceException;
 import cn.tedu.mall.common.restful.ResponseCode;
 import cn.tedu.mall.order.service.IOmsOrderService;
+import cn.tedu.mall.order.service.impl.OrderAddServiceSelector;
 import cn.tedu.mall.pojo.order.dto.OrderAddDTO;
 import cn.tedu.mall.pojo.order.vo.OrderAddVO;
 import com.alibaba.fastjson.JSON;
@@ -26,7 +27,7 @@ public class LocalOrderAddConsumer implements RocketMQListener<MessageExt> {
     @Autowired
     private RedisTemplate redisTemplate;
     @Autowired
-    private IOmsOrderService orderService;
+    private OrderAddServiceSelector orderAddServiceSelector;
     @Override public void onMessage(MessageExt message) {
         //解析msg
         String msgId=message.getMsgId();
@@ -43,7 +44,7 @@ public class LocalOrderAddConsumer implements RocketMQListener<MessageExt> {
             //抛出异常,底层返回未消费正确
             throw new CoolSharkServiceException(ResponseCode.BAD_REQUEST,"解析order失败");
         }
-        //强锁
+        //抢锁
         String lockKey=MESSAGE_LOCK_ORDER_ADD_PREFIX+msgId;
         String randCode=new Random().nextInt(100000)+899999+"";
         Boolean lock = redisTemplate.opsForValue().setIfAbsent(lockKey, randCode,5, TimeUnit.SECONDS);
@@ -57,7 +58,7 @@ public class LocalOrderAddConsumer implements RocketMQListener<MessageExt> {
             }
         }
         try{
-            orderService.addOrder(orderAddDTO);
+            orderAddServiceSelector.addOrder(orderAddDTO);
         } catch (CoolSharkServiceException e) {
             log.error("新增订单失败:{}",e.getMessage());
         } catch (Exception e){

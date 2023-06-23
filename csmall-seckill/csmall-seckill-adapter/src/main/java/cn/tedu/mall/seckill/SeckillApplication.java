@@ -3,6 +3,7 @@ package cn.tedu.mall.seckill;
 import cn.tedu.mall.common.config.MallCommonConfiguration;
 import cn.tedu.mall.seckill.timer.SeckillInitializer;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.dubbo.config.spring.context.annotation.EnableDubbo;
 import org.mybatis.spring.annotation.MapperScan;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -16,6 +17,7 @@ import org.springframework.context.annotation.Import;
 @MapperScan("cn.tedu.mall.seckill.mapper")
 @Import(MallCommonConfiguration.class)
 @Slf4j
+@EnableDubbo
 public class SeckillApplication {
     public static void main(String[] args) {
         SpringApplication springApplication=new SpringApplication(SeckillApplication.class);

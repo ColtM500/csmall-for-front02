@@ -6,7 +6,6 @@
     <!--不使用简化的多条插入，防止mycat不支持-->
     <insert id="insertOrderItems">
         INSERT INTO oms_order_item (
-        id,
         order_id,
         sku_id,
         title,
@@ -14,11 +13,12 @@
         data,
         main_picture,
         price,
-        quantity
+        quantity,
+        gmt_create,
+        gmt_modified
         ) VALUES
         <foreach collection="omsOrderItems" item="ooi" separator=",">
             (
-            #{ooi.id},
             #{ooi.orderId},
             #{ooi.skuId},
             #{ooi.title},
@@ -26,7 +26,9 @@
             #{ooi.data},
             #{ooi.mainPicture},
             #{ooi.price},
-            #{ooi.quantity}
+            #{ooi.quantity},
+             now(),
+             now()
             )
         </foreach>
     </insert>

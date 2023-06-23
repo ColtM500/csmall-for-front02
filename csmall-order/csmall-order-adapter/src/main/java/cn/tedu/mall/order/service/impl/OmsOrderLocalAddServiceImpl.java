@@ -20,33 +20,26 @@ import cn.tedu.mall.common.exception.CoolSharkServiceException;
 import cn.tedu.mall.common.pojo.domain.CsmallAuthenticationInfo;
 import cn.tedu.mall.common.restful.JsonPage;
 import cn.tedu.mall.common.restful.ResponseCode;
-import cn.tedu.mall.order.mapper.OmsOrderItemMapper;
 import cn.tedu.mall.order.mapper.OmsOrderMapper;
-import cn.tedu.mall.order.service.IOmsCartService;
+import cn.tedu.mall.order.service.IOrderAddService;
 import cn.tedu.mall.order.service.IOmsOrderService;
+import cn.tedu.mall.pojo.order.dto.OrderAddCondition;
 import cn.tedu.mall.pojo.order.dto.OrderAddDTO;
-import cn.tedu.mall.pojo.order.dto.OrderItemAddDTO;
 import cn.tedu.mall.pojo.order.dto.OrderListTimeDTO;
 import cn.tedu.mall.pojo.order.dto.OrderStateUpdateDTO;
-import cn.tedu.mall.pojo.order.model.OmsCart;
 import cn.tedu.mall.pojo.order.model.OmsOrder;
-import cn.tedu.mall.pojo.order.model.OmsOrderItem;
-import cn.tedu.mall.pojo.order.vo.OrderAddVO;
 import cn.tedu.mall.pojo.order.vo.OrderDetailVO;
 import cn.tedu.mall.pojo.order.vo.OrderListVO;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
-import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.time.ZoneOffset;
-import java.util.ArrayList;
 import java.util.List;
-import java.util.UUID;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.dubbo.config.annotation.DubboReference;
 import org.apache.dubbo.config.annotation.DubboService;
 import org.apache.rocketmq.spring.core.RocketMQTemplate;
 import org.springframework.beans.BeanUtils;
+import org.springframework.beans.factory.InitializingBean;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.messaging.Message;
 import org.springframework.messaging.support.MessageBuilder;
@@ -62,7 +55,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
  */
 @DubboService
 @Slf4j
-public class OmsOrderServiceImpl implements IOmsOrderService {
+public class OmsOrderLocalAddServiceImpl implements IOmsOrderService, IOrderAddService, InitializingBean {
     @Autowired
     private OmsOrderMapper orderMapper;
     @Autowired
@@ -70,12 +63,13 @@ public class OmsOrderServiceImpl implements IOmsOrderService {
 
     /**
      * 注意实现方法的幂等效果,只要调用,sn重复就无法下单方法就结束了
-     * @param orderAddDTO
+     * @param orderAddCondition
      * @return
      */
     @Override
-    public void addOrder(OrderAddDTO orderAddDTO) {
-        String sn = orderAddDTO.getSn();
+    public void addOrder(OrderAddCondition orderAddCondition) {
+        OrderAddDTO orderAddDTO=(OrderAddDTO)orderAddCondition;
+        String sn=orderAddDTO.getSn();
         //利用sn查询是否存在订单
         boolean existsOrder=orderMapper.selectExistBySn(sn);
         if (existsOrder){
@@ -148,5 +142,9 @@ public class OmsOrderServiceImpl implements IOmsOrderService {
     public Long getUserId() {
         CsmallAuthenticationInfo userInfo = getUserInfo();
         return userInfo.getId();
+    }
+
+    @Override public void afterPropertiesSet() throws Exception {
+        OrderAddServiceSelector.register(OrderAddDTO.class.getName(),this);
     }
 }
