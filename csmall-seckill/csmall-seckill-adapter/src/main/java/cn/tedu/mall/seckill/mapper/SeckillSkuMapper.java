@@ -14,19 +14,20 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package cn.tedu.mall.seckill.config;
-import org.springframework.context.annotation.Configuration;
-import org.springframework.web.servlet.config.annotation.CorsRegistry;
-import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
-@Configuration
-public class WebMvcConfiguration implements WebMvcConfigurer {
-    @Override
-    public void addCorsMappings(CorsRegistry registry) {
-        registry.addMapping("/**")
-                .allowedOriginPatterns("*")
-                .allowedMethods("*")
-                .allowedHeaders("*")
-                .allowCredentials(true)
-                .maxAge(3600);
-    }
+package cn.tedu.mall.seckill.mapper;
+
+
+import cn.tedu.mall.pojo.seckill.model.SeckillSku;
+import java.util.List;
+import org.apache.ibatis.annotations.Param;
+
+/**
+ * <p>  Mapper 接口</p>
+ *
+ * @since 2022-02-23
+ */
+public interface SeckillSkuMapper {
+    List<SeckillSku> selectSeckillSkusBySpuId(Long spuId);
+
+    void updateStockBySkuId(@Param("skuId") Long skuId, @Param("quantity") Integer quantity);
 }

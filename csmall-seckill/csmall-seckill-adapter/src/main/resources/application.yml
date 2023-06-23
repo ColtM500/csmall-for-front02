@@ -1,0 +1,24 @@
+server:
+  port: 10007
+spring:
+  profiles:
+    active: local
+mybatis:
+  mapper-locations:
+    - classpath:mapper/*.xml
+  configuration:
+    cache-enabled: false
+    map-underscore-to-camel-case: true
+    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
+
+jwt:
+  # JWT存储的请求头
+  tokenHeader: Authorization
+  # JWT加解密使用的密钥
+  secret: mySecret
+  # JWT的超期限时间(60*60*24)
+  expiration: 604800000
+  tokenHead: Bearer
+logging:
+  level:
+    cn.tedu.mall: trace

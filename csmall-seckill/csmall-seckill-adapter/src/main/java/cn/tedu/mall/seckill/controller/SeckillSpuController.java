@@ -26,6 +26,7 @@ import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -51,6 +52,7 @@ public class SeckillSpuController {
     @GetMapping("/list")
     @ApiOperation(value = "查询秒杀商品SPU列表")
     @ApiImplicitParams({@ApiImplicitParam(value = "页码", name = "page", required = true, dataType = "int"), @ApiImplicitParam(value = "每页记录数", name = "pageSize", required = true, dataType = "int")})
+    @PreAuthorize("permitAll()")
     public JsonResult<JsonPage<SeckillSpuVO>> listSeckillSpus(Integer page, Integer pageSize) {
         JsonPage<SeckillSpuVO> seckillSpus = seckillSpuService.listSeckillSpus(page, pageSize);
         return JsonResult.ok(seckillSpus);
@@ -59,6 +61,7 @@ public class SeckillSpuController {
     @GetMapping("/{spuId}")
     @ApiOperation(value = "利用spuId查询spu信息")
     @ApiImplicitParams({@ApiImplicitParam(name = "spuId", value = "SPU id", paramType = "path", required = true, dataType = "int")})
+    @PreAuthorize("permitAll()")
     public JsonResult<SeckillSpuVO> getSeckillSpu(@PathVariable("spuId") Long spuId) {
         SeckillSpuVO seckillSpuVO = seckillSpuService.getSeckillSpu(spuId);
         return JsonResult.ok(seckillSpuVO);
@@ -67,6 +70,7 @@ public class SeckillSpuController {
     @GetMapping("/{spuId}/detail")
     @ApiOperation(value = "利用SPUID查询spu详细信息detail")
     @ApiImplicitParams({@ApiImplicitParam(name = "spuId", value = "SPU id", paramType = "path", required = true, dataType = "int")})
+    @PreAuthorize("permitAll()")
     public JsonResult<SeckillSpuDetailSimpleVO> getSeckillSpuDetail(@PathVariable("spuId") Long spuId) {
         SeckillSpuDetailSimpleVO seckillSpuDetailVO = seckillSpuService.getSeckillSpuDetail(spuId);
         return JsonResult.ok(seckillSpuDetailVO);

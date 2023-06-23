@@ -14,9 +14,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package cn.tedu.mall.seckill.config;
-
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import springfox.documentation.builders.ApiInfoBuilder;
@@ -27,7 +25,6 @@ import springfox.documentation.service.Contact;
 import springfox.documentation.spi.DocumentationType;
 import springfox.documentation.spring.web.plugins.Docket;
 import springfox.documentation.swagger2.annotations.EnableSwagger2WebMvc;
-
 @Configuration
 @EnableSwagger2WebMvc
 public class Knife4jConfiguration {
@@ -41,7 +38,6 @@ public class Knife4jConfiguration {
             .version("1.0")
             .build();
     }
-
     @Bean
     public Docket createRestApi(ApiInfo apiInfo) {
         return new Docket(DocumentationType.SWAGGER_2)
@@ -52,7 +48,4 @@ public class Knife4jConfiguration {
             .paths(PathSelectors.any())
             .build();
     }
-
-
-
 }

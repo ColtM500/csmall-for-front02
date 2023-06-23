@@ -76,9 +76,7 @@ public class OmsCartServiceImpl implements IOmsCartService {
         //判断新增还是 增加商品数量 TODO
         Boolean existCart = operationsHash.hasKey(cartKey, cartDTO.getSkuId() + "");
         if (existCart) {
-            Integer quantity = (Integer) operationsHash.get(cartKey, cartDTO.getSkuId() + "");
-            quantity = quantity + cartDTO.getQuantity();
-            operationsHash.put(cartKey, cartDTO.getSkuId() + "", quantity);
+            operationsHash.increment(cartKey, cartDTO.getSkuId() + "", cartDTO.getQuantity());
         } else {
             //检查当前数量是否已经达到20
             Set keys = operationsHash.keys(cartKey);

@@ -20,7 +20,6 @@ import cn.tedu.mall.common.exception.CoolSharkServiceException;
 
 import cn.tedu.mall.common.restful.JsonResult;
 import cn.tedu.mall.common.restful.ResponseCode;
-import cn.tedu.mall.pojo.seckill.dto.SeckillDTO;
 import cn.tedu.mall.pojo.seckill.dto.SeckillOrderAddDTO;
 import cn.tedu.mall.pojo.seckill.vo.SeckillCommitVO;
 import cn.tedu.mall.seckill.service.ISeckillService;
