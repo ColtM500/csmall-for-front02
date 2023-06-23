@@ -9,6 +9,7 @@
         <result column="title" property="title"/>
         <result column="description" property="description"/>
         <result column="list_price" property="listPrice"/>
+        <result column="seckill_list_price" property="seckillListPrice"/>
         <result column="stock" property="stock"/>
         <result column="stock_threshold" property="stockThreshold"/>
         <result column="unit" property="unit"/>
@@ -31,6 +32,7 @@
         title,
         description,
         list_price,
+        seckill_list_price,
         stock,
         stock_threshold,
         unit,

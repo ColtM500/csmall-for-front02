@@ -23,7 +23,8 @@ public class SeckillApplication {
             @Override public void onApplicationEvent(ApplicationReadyEvent event) {
                 log.info("秒杀服务启动,加载初始化");
                 SeckillInitializer initializer = event.getApplicationContext().getBean(SeckillInitializer.class);
-                initializer.initProductData();
+                initializer.startInit();
+                initializer.scheduleStock();
             }
         });
         ConfigurableApplicationContext run = springApplication.run(args);

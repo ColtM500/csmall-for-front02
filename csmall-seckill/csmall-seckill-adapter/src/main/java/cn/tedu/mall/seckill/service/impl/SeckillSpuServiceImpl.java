@@ -43,6 +43,7 @@ import org.apache.dubbo.config.annotation.DubboReference;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.RedisTemplate;
+import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.stereotype.Service;
 
 /**
@@ -56,9 +57,12 @@ import org.springframework.stereotype.Service;
 @Slf4j
 public class SeckillSpuServiceImpl extends AbstractSeckillServiceImpl<SeckillSpuVO> implements ISeckillSpuService {
     public static final String SECKILL_SPUS="seckill:spus";
+    public static final String SECKILL_SPU_BLOOM="seckill:spu:bloom";
     public static final String SECKILL_SPU_PREFIX="seckill:spu:";
     public static final String SECKILL_SPU_RAND_PREFIX="seckill:spu:rand:";
-    public static final String SECKILL_SPU_RAND_MAP_PREFIX="seckill:spu:rand:map:";
+    //public static final String SECKILL_SPU_RAND_MAP_PREFIX="seckill:spu:rand:map:";
+    @Autowired
+    private StringRedisTemplate redisTemplate;
     @Override
     public JsonPage<SeckillSpuVO> listSeckillSpus(Integer page, Integer pageSize) {
         List<SeckillSpuVO> cache = getListCache(SECKILL_SPUS);
@@ -92,7 +96,7 @@ public class SeckillSpuServiceImpl extends AbstractSeckillServiceImpl<SeckillSpu
         Duration beforeEnd = Duration.between(cache.getEndTime(), nowTime);
         if (afterStart.isNegative() && beforeEnd.isNegative()) {
             //秒杀活动已经开始
-            cache.setUrl("/seckill/" + redisTemplate.opsForHash().get(SECKILL_SPU_RAND_MAP_PREFIX,randCodeKey));
+            cache.setUrl("/seckill/" +redisTemplate.opsForValue().get(SeckillSpuServiceImpl.SECKILL_SPU_RAND_PREFIX+spuId));
         }
         return cache;
     }

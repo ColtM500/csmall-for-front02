@@ -173,4 +173,6 @@ public class SeckillOrderAddDTO implements SeckillOrderRegExpression,Serializabl
 
     private SeckillOrderItemAddDTO seckillOrderItemAddDTO;
 
+    private String randCode;
+
 }

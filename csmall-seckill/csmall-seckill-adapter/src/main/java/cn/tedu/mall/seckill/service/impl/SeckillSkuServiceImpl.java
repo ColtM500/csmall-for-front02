@@ -32,7 +32,10 @@ import org.springframework.stereotype.Service;
  */
 @Service
 public class SeckillSkuServiceImpl extends AbstractSeckillServiceImpl<SeckillSkuVO> implements ISeckillSkuService {
+    public static final String SECKILL_SKU_BLOOM_KEY="seckill:sku:bloom";
     public static final String SECKILL_SKUS_PREFIX = "seckill:skus:";
+    public static final String SECKILL_SKU_STOCK_PREFIX="seckill:sku:stock:";
+    public static final String SECKILL_RESEC_SKU_PREFIX="seckill:resec:sku:";
     /**
      * 只从缓存获取数据
      * @param spuId

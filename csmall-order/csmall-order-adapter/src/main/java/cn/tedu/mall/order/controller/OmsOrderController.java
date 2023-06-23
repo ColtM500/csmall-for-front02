@@ -18,6 +18,7 @@ package cn.tedu.mall.order.controller;
 
 import cn.tedu.mall.common.restful.JsonPage;
 import cn.tedu.mall.common.restful.JsonResult;
+import cn.tedu.mall.common.restful.ResponseCode;
 import cn.tedu.mall.order.service.IOmsOrderService;
 import cn.tedu.mall.pojo.order.dto.OrderAddDTO;
 import cn.tedu.mall.pojo.order.dto.OrderListTimeDTO;
@@ -32,6 +33,8 @@ import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
 import java.time.LocalDateTime;
 import java.util.UUID;
+import lombok.extern.slf4j.Slf4j;
+import org.apache.rocketmq.client.producer.SendResult;
 import org.apache.rocketmq.spring.core.RocketMQTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -50,6 +53,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequestMapping("/oms/order")
 @Api(tags = "订单功能")
+@Slf4j
 public class OmsOrderController {
     @Autowired
     private IOmsOrderService orderService;
@@ -70,11 +74,16 @@ public class OmsOrderController {
         orderAddDTO.setSn(sn);
         //不生成订单,只异步发送
         String msg = JSON.toJSONString(orderAddDTO);
-        rocketMQTemplate.convertAndSend("order-add-topic",msg);
-        OrderAddVO orderAddVO=new OrderAddVO();
-        orderAddVO.setSn(sn);
-        orderAddVO.setCreateTime(LocalDateTime.now());
-        return JsonResult.ok(orderAddVO);
+        SendResult result = rocketMQTemplate.syncSend("order-add-topic", msg);
+        if (result.getSendStatus().toString().equals("SEND_OK")) {
+            OrderAddVO orderAddVO=new OrderAddVO();
+            orderAddVO.setSn(sn);
+            orderAddVO.setCreateTime(LocalDateTime.now());
+            return JsonResult.ok(orderAddVO);
+        } else {
+            log.debug("订单发送失败");
+            return null;
+        }
     }
 
     @PostMapping("/update/state")

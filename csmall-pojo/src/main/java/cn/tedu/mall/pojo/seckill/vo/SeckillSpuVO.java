@@ -1,6 +1,10 @@
 package cn.tedu.mall.pojo.seckill.vo;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import com.fasterxml.jackson.datatype.jsr310.deser.LocalDateTimeDeserializer;
+import com.fasterxml.jackson.datatype.jsr310.ser.LocalDateTimeSerializer;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
@@ -163,6 +167,8 @@ public class SeckillSpuVO implements Serializable {
      */
     @ApiModelProperty(value = "审核通过时间（冗余）")
     @JsonFormat(pattern="yyyy-MM-dd HH:mm:ss",timezone = "GMT+8")
+    @JsonDeserialize(using = LocalDateTimeDeserializer.class)		// 反序列化
+    @JsonSerialize(using = LocalDateTimeSerializer.class)
     private LocalDateTime gmtCheck;
 
     /**
@@ -170,6 +176,8 @@ public class SeckillSpuVO implements Serializable {
      */
     @ApiModelProperty(value = "秒杀开始时间")
     @JsonFormat(pattern="yyyy-MM-dd HH:mm:ss",timezone = "GMT+8")
+    @JsonDeserialize(using = LocalDateTimeDeserializer.class)		// 反序列化
+    @JsonSerialize(using = LocalDateTimeSerializer.class)
     private LocalDateTime startTime;
 
     /**
@@ -177,6 +185,8 @@ public class SeckillSpuVO implements Serializable {
      */
     @ApiModelProperty(value = "秒杀结束时间")
     @JsonFormat(pattern="yyyy-MM-dd HH:mm:ss",timezone = "GMT+8")
+    @JsonDeserialize(using = LocalDateTimeDeserializer.class)		// 反序列化
+    @JsonSerialize(using = LocalDateTimeSerializer.class)
     private LocalDateTime endTime;
     /**
      * 隐藏的秒杀url地址

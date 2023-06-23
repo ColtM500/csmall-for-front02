@@ -4,7 +4,6 @@ import cn.tedu.mall.common.config.PrefixConfiguration;
 import cn.tedu.mall.common.pojo.domain.CsmallAuthenticationInfo;
 import cn.tedu.mall.common.utils.JwtTokenUtils;
 import java.io.IOException;
-import java.util.Date;
 import java.util.List;
 import javax.servlet.FilterChain;
 import javax.servlet.ServletException;
@@ -74,7 +73,6 @@ public class SSOFilter extends OncePerRequestFilter {
             }
             if (redisExpiredTime != null && redisExpiredTime > System.currentTimeMillis()) {
                 log.debug("token未过期");
-                log.debug("过期时间续期为:{}",new Date(System.currentTimeMillis() + jwtTokenUtils.getExpiration()));
                 //进入续期操作
                 operations.put(userTokenKey, "expiredTime", System.currentTimeMillis() + jwtTokenUtils.getExpiration());
             }else {
@@ -83,14 +81,19 @@ public class SSOFilter extends OncePerRequestFilter {
                 filterChain.doFilter(httpServletRequest, httpServletResponse);
                 return;
             }
+
                 UsernamePasswordAuthenticationToken authentication = null;
+
             if (userInfo != null) {
+
                 List<GrantedAuthority> authorities = redisAuthorities;
+
                 authentication =
                     new UsernamePasswordAuthenticationToken(userInfo, null, authorities);
                 authentication.setDetails(new WebAuthenticationDetailsSource().buildDetails(httpServletRequest));
                 SecurityContextHolder.getContext().setAuthentication(authentication);
-            }else{
+            } else {
+                /*throw new CoolSharkServiceException(ResponseCode.UNAUTHORIZED,"您的token不正确,请重新登录");*/
                 SecurityContextHolder.setContext(SecurityContextHolder.createEmptyContext());
             }
         }

@@ -23,9 +23,15 @@ import cn.tedu.mall.pojo.order.dto.OrderAddDTO;
 import cn.tedu.mall.pojo.order.dto.OrderItemAddDTO;
 import cn.tedu.mall.pojo.seckill.dto.SeckillOrderAddDTO;
 import cn.tedu.mall.pojo.seckill.vo.SeckillCommitVO;
+import cn.tedu.mall.seckill.interceptor.SeckillInterceptor;
 import cn.tedu.mall.seckill.service.ISeckillService;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
+import java.util.UUID;
+import org.apache.rocketmq.client.producer.SendResult;
+import org.apache.rocketmq.spring.core.RocketMQTemplate;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.RedisTemplate;
@@ -37,11 +43,9 @@ import org.springframework.stereotype.Service;
 @Service
 public class SeckillServiceImpl implements ISeckillService {
     @Autowired
-    private RedisTemplate redisTemplate;
-
+    private List<SeckillInterceptor> seckillInterceptors;
     @Autowired
-    private StringRedisTemplate stringRedisTemplate;
-
+    private RocketMQTemplate rocketMQTemplate;
     /**
      * 秒杀提交.
      * 1.使用redis存储的库存,减库存
@@ -50,6 +54,22 @@ public class SeckillServiceImpl implements ISeckillService {
      */
     @Override
     public SeckillCommitVO commitSeckill(SeckillOrderAddDTO seckillOrderAddDTO) {
+        //生成uuid
+        String sn= UUID.randomUUID().toString();
+        seckillOrderAddDTO.setSn(sn);
+        seckillOrderAddDTO.setUserId(getUserInfo().getId());
+        //拦截检测
+        arroundCheck(seckillOrderAddDTO);
+        //异步下单
+        SendResult result = rocketMQTemplate.syncSend("seckill_order", seckillOrderAddDTO);
+        if (result.getSendStatus().toString().equals("SEND_OK")) {
+            SeckillCommitVO seckillCommitVO = new SeckillCommitVO();
+            seckillCommitVO.setSn(sn);
+            seckillCommitVO.setCreateTime(LocalDateTime.now());
+            seckillCommitVO.setPayAmount(seckillOrderAddDTO.getAmountOfOriginalPrice());
+            return seckillCommitVO;
+        }
+
 //        Long skuId = seckillOrderAddDTO.getSeckillOrderItemAddDTO().getSkuId();
 //        //拿到userId
 //        Long userId = getUserInfo().getId();
@@ -89,6 +109,12 @@ public class SeckillServiceImpl implements ISeckillService {
         return null;
     }
 
+    private void arroundCheck(SeckillOrderAddDTO dto) {
+        for (SeckillInterceptor seckillInterceptor : seckillInterceptors) {
+            seckillInterceptor.seckillCommitCheck(dto);
+        }
+    }
+
     private OrderAddDTO convertSeckillOrderToOrder(SeckillOrderAddDTO seckillOrderAddDTO) {
         OrderAddDTO orderAddDTO = new OrderAddDTO();
         List<OrderItemAddDTO> orderItems = new ArrayList<>();
@@ -107,7 +133,7 @@ public class SeckillServiceImpl implements ISeckillService {
         UsernamePasswordAuthenticationToken authentication = (UsernamePasswordAuthenticationToken) SecurityContextHolder.getContext().getAuthentication();
         //如果不是空的可以调用dubbo远程微服务获取adminVO
         if (authentication != null) {
-            CsmallAuthenticationInfo csmallAuthenticationInfo = (CsmallAuthenticationInfo) authentication.getCredentials();
+            CsmallAuthenticationInfo csmallAuthenticationInfo = (CsmallAuthenticationInfo) authentication.getPrincipal();
             return csmallAuthenticationInfo;
         } else {
             throw new CoolSharkServiceException(ResponseCode.UNAUTHORIZED, "没有登录者信息");

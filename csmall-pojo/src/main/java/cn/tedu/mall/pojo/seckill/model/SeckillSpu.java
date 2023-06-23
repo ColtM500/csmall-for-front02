@@ -43,7 +43,7 @@ public class SeckillSpu implements Serializable {
      * 价格（显示在列表中）
      */
     private BigDecimal listPrice;
-
+    private BigDecimal seckillListPrice;
     /**
      * 当前库存（冗余）
      */

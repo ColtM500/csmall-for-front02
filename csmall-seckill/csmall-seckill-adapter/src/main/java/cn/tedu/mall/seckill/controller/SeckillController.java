@@ -68,27 +68,8 @@ public class SeckillController {
     })
     public JsonResult<SeckillCommitVO> commitSeckill(@PathVariable("randCode") String randCode,
         SeckillOrderAddDTO seckillOrderAddDTO) {
-        Long spuId = seckillOrderAddDTO.getSpuId();
-        //拿到生成随机数的key值,当初是根据spuId生成的
-        String redisRandCodeKey = SEKCILL_RAND_CODE_SPU+spuId;
-        if (redisTemplate.hasKey(redisRandCodeKey)) {
-            //拿到redis中存储的随机数
-            String redisRandCode = (String) redisTemplate.boundValueOps(redisRandCodeKey).get();
-            //非空情况下验证相等,有可能redis被攻击成null值
-            if (redisRandCode != null && redisRandCode.length() != 0) {
-                boolean equal = redisRandCode.equals(randCode);
-                if (!equal) {
-                    throw new CoolSharkServiceException(ResponseCode.CONFLICT, "你的秒杀路径不正确");
-                }
-                SeckillCommitVO seckillCommitVO = seckillService.commitSeckill(seckillOrderAddDTO);
-                //成功秒杀,马上进入订单提交页面,请尽快支付
-                return JsonResult.ok(seckillCommitVO);
-            } else {
-                throw new CoolSharkServiceException(ResponseCode.INTERNAL_SERVER_ERROR, "缓存路径为null,请联系管理员查看");
-            }
-        }
-        {
-            throw new CoolSharkServiceException(ResponseCode.NOT_FOUND, "你的秒杀路径不存在");
-        }
+        seckillOrderAddDTO.setRandCode(randCode);
+        SeckillCommitVO vo = seckillService.commitSeckill(seckillOrderAddDTO);
+        return JsonResult.ok(vo);
     }
 }
