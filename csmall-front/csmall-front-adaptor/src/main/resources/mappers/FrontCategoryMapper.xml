@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.tedu.csmall.mapper.FrontCategoryMapper">
+
+    <!--    List<FrontCategoryEntity> selectAll();-->
+    <select id="selectAll" resultMap="StandardResultMap">
+        select
+        <include refid="StandardQueryFields"/>
+        from
+        mall_pms.pms_category
+    </select>
+
+    <sql id="StandardQueryFields">
+        <if test="true">
+            pms_category.id,
+            pms_category.name,
+            pms_category.parent_id,
+            pms_category.depth,
+            pms_category.keywords,
+            pms_category.sort,
+            pms_category.icon,
+#             pms_category.enable,
+            pms_category.is_parent,
+            pms_category.is_display
+        </if>
+    </sql>
+
+    <resultMap id="StandardResultMap" type="cn.tedu.mall.pojo.front.entity.FrontCategoryEntity">
+        <id column="id" property="id"/>
+        <result column="name" property="name"/>
+        <result column="parent_id" property="parentId"/>
+        <result column="depth" property="depth"/>
+        <result column="keywords" property="keywords"/>
+        <result column="sort" property="sort"/>
+        <result column="icon" property="icon"/>
+<!--        <result column="enable" property="enable"/>-->
+        <result column="is_parent" property="parent"/>
+        <result column="is_display" property="display"/>
+    </resultMap>
+
+</mapper>

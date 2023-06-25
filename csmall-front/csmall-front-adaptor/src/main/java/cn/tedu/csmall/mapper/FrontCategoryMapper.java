@@ -10,7 +10,7 @@ import java.util.List;
 
 @Repository
 public interface FrontCategoryMapper {
-     @Select("select * from pms_category")
+
      List<FrontCategoryEntity> selectAll();
 
 }
