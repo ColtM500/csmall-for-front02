@@ -87,8 +87,7 @@ public class FrontCategoryServiceImpl implements IFrontCategoryService {
                 secondLevelCategory.setChildrens(thirdLevelCategories);
             }
         }
-
-        return null;
+        return frontCategoryTreeVO;
     }
 
 }
