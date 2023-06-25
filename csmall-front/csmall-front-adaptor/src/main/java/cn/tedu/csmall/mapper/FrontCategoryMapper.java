@@ -7,6 +7,6 @@ import java.util.List;
 
 public interface FrontCategoryMapper {
 
-     List<FrontCategoryEntity> selectAll();
+     List<FrontCategoryStandardVO> selectAll();
 
 }
