@@ -63,6 +63,31 @@ public class FrontCategoryServiceImpl implements IFrontCategoryService {
                 nextLevelList.add(frontCategoryEntity);
             }
         }
+        //当前map中 保存了所有同一父级分类的子集集合 但是没有办法区分2级分类 3级分类
+        //一级分类的key=0， 根据一级分类集合遍历找到二级分类 嵌套遍历二级分类找到三级分类
+        //准备返回对象
+        FrontCategoryTreeVO frontCategoryTreeVO = new FrontCategoryTreeVO();
+        //拿到一级分类
+        List<FrontCategoryEntity> firstLevelCategories = categoriesMap.get(0L);
+        frontCategoryTreeVO.setCategories(firstLevelCategories);
+        //遍历一级分类 分类二级分类的list集合
+        for (FrontCategoryEntity firstLevelCategory: firstLevelCategories) {
+            //拿到一个一级分类的id
+            Long firstLevelId = firstLevelCategory.getId();
+            //到map取出这个id对应的二级分类集合
+            List<FrontCategoryEntity> secondLevelCategories = categoriesMap.get(firstLevelId);
+            //set给每一个一级分类的对象
+            firstLevelCategory.setChildrens(secondLevelCategories);
+            //循环遍历二级分类，放入三级分类的list集合
+            for (FrontCategoryEntity secondLevelCategory : secondLevelCategories) {
+                //拿到每一个二级分类的id
+                Long secondLevelCategoryId = secondLevelCategory.getId();
+                //到map取出这个二级id对应三级集合
+                List<FrontCategoryEntity> thirdLevelCategories = categoriesMap.get(secondLevelCategoryId);
+                secondLevelCategory.setChildrens(thirdLevelCategories);
+            }
+        }
+
         return null;
     }
 
