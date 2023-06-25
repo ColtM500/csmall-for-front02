@@ -13,7 +13,7 @@
     <packaging>pom</packaging>
     <modules>
         <module>csmall-front-service</module>
-        <module>csmall-front-adapter</module>
+        <module>csmall-front-adaptor</module>
     </modules>
 
     <properties>

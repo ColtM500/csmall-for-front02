@@ -72,7 +72,7 @@
         select
             <include refid="BaseQueryFields"/>
         from
-            ums_user
+            mall_ums.ums_user
         where
             username=#{username}
     </select>
@@ -80,7 +80,7 @@
         select
             <include refid="StandardQueryFields"/>
         from
-            ums_user
+            mall_ums.ums_user
         where
             id=#{id}
     </select>

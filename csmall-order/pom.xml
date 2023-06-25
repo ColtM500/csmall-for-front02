@@ -12,7 +12,7 @@
     <artifactId>csmall-order</artifactId>
     <packaging>pom</packaging>
     <modules>
-        <module>csmall-order-adapter</module>
+<!--        <module>csmall-order-adapter</module>-->
         <module>csmall-order-service</module>
     </modules>
 
