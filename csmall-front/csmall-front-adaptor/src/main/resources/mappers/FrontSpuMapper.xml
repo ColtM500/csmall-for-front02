@@ -1,0 +1,136 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.tedu.csmall.mapper.FrontSpuMapper">
+
+    <!--    List<SpuListItemVO> selectSpusByCategoryId(@Param("categoryId") Long categoryId);-->
+    <select id="selectSpusByCategoryId" resultMap="ListResultMap">
+        select
+        <include refid="ListQueryFields"/>
+        from mall_pms.pms_spu
+        where category_id=#{categoryId}
+    </select>
+
+    <sql id="ListQueryFields">
+        <if test="true">
+            pms_spu.id,
+            pms_spu.name,
+            pms_spu.type_number,
+            pms_spu.title,
+            pms_spu.description,
+            pms_spu.list_price,
+            pms_spu.stock,
+            pms_spu.stock_threshold,
+            pms_spu.unit,
+            pms_spu.album_id,
+            pms_spu.pictures,
+            pms_spu.sales,
+            pms_spu.is_deleted,
+            pms_spu.is_published,
+            pms_spu.is_new_arrival,
+            pms_spu.is_recommend,
+            pms_spu.is_checked,
+            pms_spu.check_user,
+            pms_spu.gmt_check,
+            pms_spu.sort
+        </if>
+    </sql>
+
+    <resultMap id="ListResultMap" type="cn.tedu.mall.pojo.product.vo.SpuListItemVO">
+        <id column="id" property="id"/>
+        <result column="name" property="name"/>
+        <result column="type_number" property="typeNumber"/>
+        <result column="title" property="title"/>
+        <result column="description" property="description"/>
+        <result column="list_price" property="listPrice"/>
+        <result column="stock" property="stock"/>
+        <result column="stock_threshold" property="stockThreshold"/>
+        <result column="unit" property="unit"/>
+        <result column="album_id" property="albumId"/>
+        <result column="pictures" property="pictures"/>
+        <result column="sales" property="sales"/>
+        <!--        <result column="comment_count" property="commentCount"/>-->
+        <!--        <result column="positive_comment_count" property="positiveCommentCount"/>-->
+        <result column="is_deleted" property="deleted"/>
+        <result column="is_published" property="published"/>
+        <result column="is_new_arrival" property="newArrival"/>
+        <result column="is_recommended" property="recommended"/>
+        <result column="is_checked" property="checked"/>
+        <result column="check_user" property="checkUser"/>
+        <result column="gmt_check" property="gmtCheck"/>
+        <result column="sort" property="sort"/>
+    </resultMap>
+
+    <!--    SpuStandardVO getBySpuId(@Param("id") Long id);-->
+    <select id="getBySpuId" resultMap="StandardResultMap">
+        select
+        <include refid="StandardQueryFields"/>
+        from mall_pms.pms_spu
+        where id = #{id}
+    </select>
+
+    <sql id="StandardQueryFields">
+        <if test="true">
+            pms_spu.id,
+            pms_spu.name,
+            pms_spu.type_number,
+            pms_spu.title,
+            pms_spu.description,
+            pms_spu.list_price,
+            pms_spu.stock,
+            pms_spu.stock_threshold,
+            pms_spu.unit,
+#             pms_spu.brand_id,
+#             pms_spu.brand_name,
+#             pms_spu.category_id,
+#             pms_spu.category_name,
+#             pms_spu.attribute_template_id
+            pms_spu.album_id,
+            pms_spu.pictures,
+#             pms_spu.keywords,
+#             pms_spu.tags,
+            pms_spu.sales,
+#             pms_spu.comment_count,
+#             pms_spu.positive_comment_count,
+            pms_spu.sort,
+            pms_spu.is_deleted,
+            pms_spu.is_published,
+            pms_spu.is_new_arrival,
+            pms_spu.is_recommend,
+            pms_spu.is_checked,
+            pms_spu.check_user,
+            pms_spu.gmt_check
+        </if>
+    </sql>
+
+    <resultMap id="StandardResultMap" type="cn.tedu.mall.pojo.product.vo.SpuStandardVO">
+        <id column="id" property="id"/>
+        <result column="name" property="name"/>
+        <result column="type_number" property="typeNumber"/>
+        <result column="title" property="title"/>
+        <result column="description" property="description"/>
+        <result column="list_price" property="listPrice"/>
+        <result column="stock" property="stock"/>
+        <result column="stock_threshold" property="stockThreshold"/>
+        <result column="unit" property="unit"/>
+<!--        <result column="brand_id" property="brandId"/>-->
+<!--        <result column="brand_name" property="brandName"/>-->
+<!--        <result column="category_id" property="categoryId"/>-->
+<!--        <result column="category_name" property="categoryName"/>-->
+<!--        <result column="attribute_template_id" property="attributeTemplateId"/>-->
+        <result column="album_id" property="albumId"/>
+        <result column="pictures" property="pictures"/>
+<!--        <result column="keywords" property="keywords"/>-->
+<!--        <result column="tags" property="tags"/>-->
+        <result column="sales" property="sales"/>
+<!--        <result column="comment_count" property="commentCount"/>-->
+<!--        <result column="positive_comment_count" property="positiveCommentCount"/>-->
+        <result column="sort" property="sort"/>
+        <result column="is_deleted" property="deleted"/>
+        <result column="is_published" property="published"/>
+        <result column="is_new_arrival" property="newArrival"/>
+        <result column="is_recommended" property="recommended"/>
+        <result column="is_checked" property="checked"/>
+        <result column="check_user" property="checkUser"/>
+        <result column="gmt_check" property="gmtCheck"/>
+    </resultMap>
+</mapper>

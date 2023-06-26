@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.tedu.csmall.mapper.FrontSkuMapper">
+
+    <!--    List<SkuStandardVO> listSkuBySpuId(@Param("spuId") Long id);-->
+    <select id="listSkuBySpuId" resultMap="StandardResultMap">
+        select
+        <include refid="StandardQueryFields"/>
+        from
+        mall_pms.pms_sku
+        where spu_id=#{spuId}
+    </select>
+
+    <sql id="StandardQueryFields">
+        <if test="true">
+            pms_sku.id,
+            pms_sku.spu_id,
+            pms_sku.title,
+            pms_sku.bar_code,
+            pms_sku.attribute_template_id,
+            pms_sku.specifications,
+            pms_sku.album_id,
+            pms_sku.pictures,
+            pms_sku.price,
+            pms_sku.stock,
+            pms_sku.stock_threshold,
+            pms_sku.sales,
+            pms_sku.comment_count,
+            pms_sku.positive_comment_count,
+            pms_sku.sort
+        </if>
+    </sql>
+
+    <resultMap id="StandardResultMap" type="cn.tedu.mall.pojo.product.vo.SkuStandardVO">
+        <id column="id" property="id"/>
+        <id column="spu_id" property="spuId"/>
+        <id column="title" property="title"/>
+        <id column="bar_code" property="barCode"/>
+        <id column="attribute_template_id" property="attributeTemplateId"/>
+        <id column="specifications" property="specifications"/>
+        <id column="album_id" property="albumId"/>
+        <id column="pictures" property="pictures"/>
+        <id column="price" property="price"/>
+        <id column="stock" property="stock"/>
+        <id column="stock_threshold" property="stockThreshold"/>
+        <id column="sales" property="sales"/>
+        <id column="comment_count" property="commentCount"/>
+        <id column="positive_comment_count" property="positiveCommentCount"/>
+        <id column="sort" property="sort"/>
+    </resultMap>
+</mapper>

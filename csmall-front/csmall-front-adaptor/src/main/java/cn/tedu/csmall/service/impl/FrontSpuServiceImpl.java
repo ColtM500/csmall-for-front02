@@ -3,7 +3,6 @@ package cn.tedu.csmall.service.impl;
 import cn.tedu.csmall.mapper.FrontSpuMapper;
 import cn.tedu.mall.common.exception.CoolSharkServiceException;
 import cn.tedu.mall.common.restful.JsonPage;
-import cn.tedu.mall.common.restful.JsonResult;
 import cn.tedu.mall.common.restful.ResponseCode;
 import cn.tedu.mall.front.service.IFrontSpuService;
 import cn.tedu.mall.pojo.product.vo.SpuListItemVO;
@@ -18,7 +17,7 @@ import java.util.List;
 @Service
 
 public class FrontSpuServiceImpl implements IFrontSpuService {
-    @Autowired(required = false)
+    @Autowired
     private FrontSpuMapper frontSpuMapper;
 
     @Override
@@ -39,6 +38,7 @@ public class FrontSpuServiceImpl implements IFrontSpuService {
 
     @Override
     public SpuStandardVO getFrontSpuById(Long id) {
-        return null;
+        SpuStandardVO frontBySpuId = frontSpuMapper.getBySpuId(id);
+        return frontBySpuId;
     }
 }
