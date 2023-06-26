@@ -19,7 +19,7 @@
             pms_category.keywords,
             pms_category.sort,
             pms_category.icon,
-#             pms_category.enable,
+            pms_category.active,
             pms_category.is_parent,
             pms_category.is_display
         </if>
@@ -33,7 +33,7 @@
         <result column="keywords" property="keywords"/>
         <result column="sort" property="sort"/>
         <result column="icon" property="icon"/>
-<!--        <result column="enable" property="enable"/>-->
+        <result column="active" property="active"/>
         <result column="is_parent" property="parent"/>
         <result column="is_display" property="display"/>
     </resultMap>
