@@ -12,8 +12,8 @@
     <artifactId>csmall-order</artifactId>
     <packaging>pom</packaging>
     <modules>
-<!--        <module>csmall-order-adapter</module>-->
         <module>csmall-order-service</module>
+        <module>csmall-order-adaptor</module>
     </modules>
 
     <properties>
