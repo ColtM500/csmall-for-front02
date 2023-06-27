@@ -6,6 +6,8 @@ import cn.tedu.mall.pojo.front.entity.FrontCategoryEntity;
 import cn.tedu.mall.pojo.front.vo.FrontCategoryTreeVO;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.redis.core.RedisTemplate;
+import org.springframework.data.redis.core.ValueOperations;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -28,15 +30,30 @@ public class FrontCategoryServiceImpl implements IFrontCategoryService {
      *
      * @return
      */
+    public static final String FRONT_CAT_TREE_KEY="front:cat:tree";
+    @Autowired
+    private RedisTemplate redisTemplate;
     @Override
     public FrontCategoryTreeVO categoryTree() {
-        //这个方法 就通过映射文件 xml来解决属性和字段不一致的问题 手动映射Map标签
-        List<FrontCategoryEntity> frontCategoryEntities =
-                frontCategoryMapper.selectAll();
-        //初始化解析
-        FrontCategoryTreeVO frontCategoryTreeVO = initTree(frontCategoryEntities);
-        //返回
-        return frontCategoryTreeVO;
+        //不会频繁变动,而且没有必要引入超时
+        //1 准备一个 三级分类树的key值
+        //2 查询缓存,判断命中
+        ValueOperations valueOperations = redisTemplate.opsForValue();
+        Object o = valueOperations.get(FRONT_CAT_TREE_KEY);
+        if (o == null){
+            log.debug("缓存没命中");
+            //这个方法,就通过映射文件,xml来解决属性和字段不一致的问题 手动映射Map标签
+            List<FrontCategoryEntity> frontCategoryEntityList
+                    =frontCategoryMapper.selectAll();//select * from pms_category
+            //初始化解析
+            FrontCategoryTreeVO frontCategoryTreeVO
+                    =initTree(frontCategoryEntityList);
+            //存放缓存
+            valueOperations.set(FRONT_CAT_TREE_KEY,frontCategoryTreeVO);
+            return frontCategoryTreeVO;
+        }
+        log.debug("缓存命中");
+        return (FrontCategoryTreeVO) o;
     }
 
     private FrontCategoryTreeVO initTree(List<FrontCategoryEntity> frontCategoryEntityList) {

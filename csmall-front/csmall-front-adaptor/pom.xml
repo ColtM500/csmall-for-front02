@@ -43,6 +43,13 @@
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-validation</artifactId>
         </dependency>
+        <dependency>
+            <!--SPRING-BOOT-STARTER-DATA-REDIS-->
+            <!--自动创建一个连接对象,默认客户端是jedis-->
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-redis</artifactId>
+            <version>1.4.7.RELEASE</version>
+        </dependency>
     </dependencies>
 
 </project>

@@ -17,6 +17,10 @@ spring:
     driver-class-name: com.mysql.cj.jdbc.Driver
   application:
     name: mall-front
+  redis:
+    host: localhost
+    port: 6379
+    password:
 
 jwt:
   tokenHeader: Authorization #JWT存储的请求头
@@ -36,3 +40,8 @@ mybatis:
     cache-enabled: false
     map-underscore-to-camel-case: true
     log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
+
+
+logging:
+  level:
+    cn.tedu.mall: debug
