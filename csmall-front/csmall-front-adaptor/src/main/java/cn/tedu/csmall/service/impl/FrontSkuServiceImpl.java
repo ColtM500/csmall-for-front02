@@ -15,6 +15,9 @@ public class FrontSkuServiceImpl implements IFrontSkuService {
 
     @Override
     public List<SkuStandardVO> getSkus(Long spuId) {
+        //TODO: 布隆过滤器需求
+        //TODO: 击穿处理 分布式抢锁
+        //TODO: 缓存cache-aside 流程 使用list数据
         List<SkuStandardVO> skuStandardVOS = frontSkuMapper.listSkuBySpuId(spuId);
         return skuStandardVOS;
     }
