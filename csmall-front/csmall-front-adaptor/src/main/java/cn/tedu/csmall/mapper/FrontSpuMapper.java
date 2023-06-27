@@ -5,9 +5,11 @@ import cn.tedu.mall.pojo.product.vo.SpuListItemVO;
 import cn.tedu.mall.pojo.product.vo.SpuStandardVO;
 import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.Select;
+import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
+@Repository
 public interface FrontSpuMapper {
 //    @Select("select * from pms_spu where category_id = #{categoryId}")
     List<SpuListItemVO> selectSpusByCategoryId(@Param("categoryId") Long categoryId);
