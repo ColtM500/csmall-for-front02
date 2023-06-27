@@ -6,6 +6,13 @@ import org.springframework.data.redis.core.RedisTemplate;
 
 import java.util.concurrent.TimeUnit;
 
+/**
+ * 存储缓存对象,
+ * 使用泛型T 定义缓存的类型
+ * 所有缓存的功能,集中使用这个cache类来解决
+ * 使用缓存功能的实现业务类,只需要继承,定义泛型类型就可以了
+ * @param <T>
+ */
 @Slf4j
 public class FrontCacheServiceImpl<T> {
     @Autowired
@@ -22,8 +29,6 @@ public class FrontCacheServiceImpl<T> {
         return t;
     }
 
-    ;
-
     public void setCache(String key, T t) {
         //内部私有方法 方法重载 方便外界调用
         this.setCache(key, t, null, null);
@@ -39,7 +44,7 @@ public class FrontCacheServiceImpl<T> {
         } else if (expiredTime == null && timeUnit != null) {
             log.error("超时时间数据 不规范");
         } else {
-            redisTemplate.opsForValue().set();
+            redisTemplate.opsForValue().set(key, t);
         }
     }
 
