@@ -18,13 +18,8 @@
     <dependencies>
         <dependency>
             <groupId>cn.tedu.mall</groupId>
-            <artifactId>csmall-common</artifactId>
+            <artifactId>csmall-pojo</artifactId>
             <version>1.0-SNAPSHOT</version>
         </dependency>
-        <dependency>
-        <groupId>cn.tedu.mall</groupId>
-        <artifactId>csmall-pojo</artifactId>
-        <version>1.0-SNAPSHOT</version>
-    </dependency>
     </dependencies>
 </project>

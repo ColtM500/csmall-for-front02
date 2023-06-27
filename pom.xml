@@ -11,11 +11,7 @@
         <module>csmall-order</module>
         <module>csmall-seckill</module>
         <module>csmall-front</module>
-<!--        <module>csmall-seckill/csmall-seckill-adapter</module>-->
         <module>csmall-seckill/csmall-seckill-service</module>
-<!--        <module>csmall-order-adaptor</module>-->
-<!--        <module>csmall-seckill-adaptor</module>-->
-        <module>csmall-order/csmall-order-adaptor</module>
         <module>csmall-seckill/csmall-seckill-adaptor</module>
     </modules>
     <parent>
