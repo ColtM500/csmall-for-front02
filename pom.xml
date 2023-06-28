@@ -13,6 +13,7 @@
         <module>csmall-front</module>
         <module>csmall-seckill/csmall-seckill-service</module>
         <module>csmall-seckill/csmall-seckill-adaptor</module>
+        <module>xlock</module>
     </modules>
     <parent>
         <artifactId>spring-boot-starter-parent</artifactId>
